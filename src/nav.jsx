@@ -1,9 +1,10 @@
 import './css/style.css';
+import logo from './logo.png'
 
 function Logo() {
     return (
     <div className="nav__logo logo">
-    <img src='./public/logo.png' className="logo__image" alt="logo" />
+    <img src={logo} className="logo__image" alt="logo" />
     </div>
     );
 }

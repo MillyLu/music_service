@@ -1,5 +1,7 @@
 import './css/style.css';
 
+
+
 function Progress(){
     return(
         <div className='bar__player-progress' />
@@ -12,7 +14,7 @@ function ButtonPrevious(){
     return(
         <div className='player__btn-prev'>
             <svg className='player__btn-prev-svg' alt='prev'>
-                <use xlinkHref='public/icon/sprite.svg#icon-prev' />
+                <use xlinkHref='img/icon/sprite.svg#icon-prev' />
             </svg>
         </div>
     )
@@ -21,8 +23,8 @@ function ButtonPrevious(){
 function ButtonPlay(){
     return(
         <div className='player__btn-play _btn'>
-            <svg className='player__btn-play-svg' alt='play'>
-                <use xlinkHref='public/icon/sprite.svg#icon-play' />
+            <svg className='player__btn-play-svg'>
+                <use xlinkHref='img/icon/sprite.svg#icon-play' />
             </svg>
         </div>
     )
@@ -32,7 +34,7 @@ function ButtonNext(){
     return(
         <div className='player__btn-next'>
             <svg className='player__btn-next-svg' alt='next'>
-                <use xlinkHref='public/icon/sprite.svg#icon-next' />
+                <use xlinkHref='img/icon/sprite.svg#icon-next' />
             </svg>
         </div>
     )
@@ -42,7 +44,7 @@ function ButtonRepeat(){
     return(
         <div className='player__btn-repeat _btn-icon'>
             <svg className='player__btn-repeat-svg' alt='repeat'>
-                <use xlinkHref='public/icon/sprite.svg#icon-repeat' />
+                <use xlinkHref='img/icon/sprite.svg#icon-repeat' />
             </svg>
         </div>
     )
@@ -52,7 +54,7 @@ function ButtonShuffle(){
     return(
         <div className='player__btn-shuffle _btn-icon'>
             <svg className='player__btn-shuffle-svg' alt='shuffle'>
-                <use xlinkHref='public/icon/sprite.svg#icon-shuffle' />
+                <use xlinkHref='img/icon/sprite.svg#icon-shuffle' />
             </svg>
         </div>
     )
@@ -76,7 +78,7 @@ function TrackPlayImage(){
     return(
         <div className='track-play__image'>
             <svg className='track-play__svg' alt='music'>
-                <use xlinkHref='public/icon/sprite.svg#icon-note' />
+                <use xlinkHref='img/icon/sprite.svg#icon-note' />
             </svg>
         </div>
     )
@@ -102,8 +104,8 @@ function TrackPlayContain(){
     return(
         <div className='track-play__contain'>
             <TrackPlayImage />
-            <TrackPlayAuthor />
-            <TrackPlayAlbum />
+            <TrackPlayAuthor text='Ты та...'/>
+            <TrackPlayAlbum text='Баста'/>
         </div>
     )
 }
@@ -112,7 +114,7 @@ function TrackPlayLike(){
     return(
         <div className='track-play__like _btn-icon'>
             <svg className='track-play__like-svg' alt='like'>
-                <use xlinkHref='public/icon/sprite.svg#icon-like' />
+                <use xlinkHref='img/icon/sprite.svg#icon-like' />
             </svg>
         </div>
     )
@@ -122,7 +124,7 @@ function TrackPlayDislike(){
     return(
         <div className='track-play__dislike _btn-icon'>
             <svg className='track-play__dislike-svg' alt='dislike'>
-                <use xlinkHref='public/icon/sprite.svg#icon-dislike' />
+                <use xlinkHref='img/icon/sprite.svg#icon-dislike' />
             </svg>
         </div>
     )
@@ -173,7 +175,7 @@ function VolumeImage() {
 function VolumeProgress(){
     return(
         <div className='volume__progress _btn'>
-            <input className='volume__progress-line _btn' type={Range} name='range' />
+            <input className='volume__progress-line _btn' type='range' name='range' />
         </div>
     )
 }

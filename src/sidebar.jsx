@@ -37,9 +37,9 @@ function SidebarItem(props) {
 function SidebarList() {
     return(
         <div className='sidebar__item'>
-            <SidebarItem image = "public/playlist01.png" />
-            <SidebarItem image = "public/playlist02.png" />
-            <SidebarItem image = "public/playlist03.png" />
+            <SidebarItem image = "playlist01.png" />
+            <SidebarItem image = "playlist02.png" />
+            <SidebarItem image = "playlist03.png" />
         </div>
     )
 }
