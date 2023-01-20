@@ -35,12 +35,8 @@ function StartscreenLogin () {
 
 function StartscreenEnter () {
 
-const handle = () => {
-    localStorage.setItem("token", 'true');
-}
-
     return(
-        <Styled.StartscreenButton onClick={handle}>Войти</Styled.StartscreenButton>
+        <Styled.StartscreenButton >Войти</Styled.StartscreenButton>
     )
 }
 
@@ -52,16 +48,17 @@ function StartscreenButtonRegister () {
 
 function StartscreenForm() {
     const navigate = useNavigate();
+    const path = "/"
 
-
-    const handleSubmit = () => {
-       
-        navigate("/", { replace: true });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        localStorage.setItem("token", 'true');
+        navigate( {path}, { replace: true });
       
         }
 
     return(
-        <Styled.StartscreenForm onsubmit={handleSubmit}>
+        <Styled.StartscreenForm onSubmit={handleSubmit}>
             <StartscreenLogin />
             <StartscreenEnter />
             <StartscreenButtonRegister />          

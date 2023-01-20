@@ -62,13 +62,14 @@ body {
 
 function App() {
    
-  const token = localStorage.getItem("token");   
+  const token = localStorage.getItem("token"); 
+
 
   return(
       <>
       <GlobalStyle /> 
       
-          <AppRoutes user={token} />
+      <AppRoutes user={token} />
     
       </>
       

@@ -14,13 +14,13 @@ export function AppRoutes ({ user })  {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-        path="/*"
+        
         element={
-          <ProtectedRoute isAllowed={Boolean(user)}>
-            <MainPage />
-          </ProtectedRoute>
-        }
-      />
+          <ProtectedRoute isAllowed={Boolean(user)} />} >
+            <Route path="/" element={<MainPage />} />
+        </Route>
+        
+      
     </Routes>
   );
 };
