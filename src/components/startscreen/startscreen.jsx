@@ -41,19 +41,29 @@ function StartscreenEnter () {
 }
 
 function StartscreenButtonRegister () {
+    const navigate = useNavigate();
+    const path = "/register";
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        navigate( path, { replace: true });
+      
+        }
+
+
     return(
-        <Styled.StartscreenButtonReg>Зарегистрироваться</Styled.StartscreenButtonReg>
+        <Styled.StartscreenButtonReg onClick={handleClick}>Зарегистрироваться</Styled.StartscreenButtonReg>
     )
 }
 
 function StartscreenForm() {
     const navigate = useNavigate();
-    const path = "/"
+    const path = "/";
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem("token", 'true');
-        navigate( {path}, { replace: true });
+        localStorage.setItem('token', 'true');
+        navigate( path, { replace: true });
       
         }
 

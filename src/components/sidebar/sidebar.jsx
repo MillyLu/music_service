@@ -29,7 +29,7 @@ function SidebarItem(props) {
 
     return(
         <Styled.SidebarItem>
-            <Styled.SidebarLink href='http://'>
+            <Styled.SidebarLink href={props.href}>
                 <Styled.SidebarImage src={props.image} alt='day"s playlist' />
             </Styled.SidebarLink>
         </Styled.SidebarItem>
@@ -60,9 +60,9 @@ function SidebarList() {
         <Styled.SidebarList>
             {!skeleton ?
             (<>
-                <SidebarItem image = "playlist01.png" />
-                <SidebarItem image = "playlist02.png" />
-                <SidebarItem image = "playlist03.png" />
+                <SidebarItem image = "playlist01.png" href="" />
+                <SidebarItem image = "playlist02.png" href="" />
+                <SidebarItem image = "playlist03.png" href="" />
             </>)
                 
                 :

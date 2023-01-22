@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import * as Styled from './styles';
 import logo from './logo-log.png'
 
@@ -24,8 +25,18 @@ function RegisterLogin () {
 
 
 function RegisterButton () {
+    const navigate = useNavigate();
+    const path = "/login";
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate( path, { replace: true });
+      
+        }
+
+
     return(
-        <Styled.StartscreenButton>Зарегистрироваться</Styled.StartscreenButton>
+        <Styled.StartscreenButton onClick={handleSubmit}>Зарегистрироваться</Styled.StartscreenButton>
     )
 }
 
