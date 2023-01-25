@@ -24,6 +24,16 @@ height: 5px;
 background: #2E2E2E;
 `;
 
+export const Progress = styled.progress`
+width: 100%;
+height: 5px;
+vertical-align: top;
+`
+
+export const ProgressNone = styled(Progress)`
+display: none;
+`
+
 export const BarPlayer = styled.div`
 display: -webkit-box;
 display: -ms-flexbox;
@@ -343,4 +353,8 @@ export const SkeletonTrackImage = styled(SkeletonTrackAlbum)`
 width: 51px;
 height: 51px;
 `;
+
+export const Audio = styled.audio`
+display: none;
+`
 

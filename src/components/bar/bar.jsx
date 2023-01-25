@@ -1,15 +1,86 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import * as Styled from './styles'
 
 
 
-function Progress(){
-    return(
-        <Styled.BarPlayerProgress />
-    )
-}
+
 
 // -------------------Player__Controls----------------------//
+
+
+function BarContent() {
+    const [audio, turnAudio] = useState();
+
+    const toggleAudio = () => turnAudio((isAudio) => !isAudio);
+
+     const [currentTime, setCurrentTime] = useState(0);
+     const [maxValue, setMaxValue] = useState(0);
+
+    const aud = useRef(null);
+    const inputRef = useRef(null);
+ 
+
+ const handleChange = () => {
+    //  eslint-disable-next-line prefer-destructuring
+     setCurrentTime(aud.current.currentTime);
+     setMaxValue(aud.current.duration);
+
+
+
+ }
+
+ useEffect(() => {
+        
+    //  eslint-disable-next-line prefer-destructuring
+inputRef.current.value = currentTime;
+inputRef.current.max = maxValue;
+     }, [currentTime]);
+
+return(
+    <Styled.BarContent>
+        <Styled.BarPlayerProgress>
+            <Styled.Progress ref={inputRef} value ={currentTime} max={maxValue}></Styled.Progress>
+        </Styled.BarPlayerProgress>
+        <Styled.BarPlayerBlock>
+            <Styled.BarPlayer>
+                <Styled.PlayerControls>
+                <ButtonPrevious />
+                <Styled.PlayerButtonPlay isSelected={audio} onClick={toggleAudio}>
+                 <Styled.PlayerButtonPlaySvg >
+                    {
+                        audio ? 
+                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
+                            :
+                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
+                        
+                    }
+                     
+                 </Styled.PlayerButtonPlaySvg>
+                     {
+                         audio && (
+                         <Styled.Audio onTimeUpdate={handleChange}  ref={aud} src='Bobby_Marleni_-_Dropin.mp3' autoPlay></Styled.Audio>
+                         )
+                     }
+            
+                </Styled.PlayerButtonPlay>
+                <ButtonNext />
+                <ButtonRepeat />
+                <ButtonShuffle />
+                </Styled.PlayerControls>
+                <PlayerTrackPlay />     
+            </Styled.BarPlayer>
+        <BarVolumeBlock />    
+        </Styled.BarPlayerBlock>    
+
+
+    </Styled.BarContent>
+)
+
+}
+
+
+
+
 
 function ButtonPrevious(){
     return(
@@ -21,16 +92,56 @@ function ButtonPrevious(){
     )
 }
 
-function ButtonPlay(){
+
+/*
+function ButtonPlay() {
+
+    const [audio, turnAudio] = useState();
+
+    const toggleAudio = () => turnAudio((isAudio) => !isAudio);
+
+     const [currentTime, setCurrentTime] = useState(0);
+     const [maxValue, setMaxValue] = useState(0);
+
+    const aud = useRef(null);
+    const inputRef = useRef(null);
+ 
+
+ const handleChange = () => {
+    //  eslint-disable-next-line prefer-destructuring
+     setCurrentTime(aud.current.currentTime);
+     console.log(currentTime);
+     setMaxValue(aud.current.duration);
+     console.log(maxValue);
+
+
+ }
+
+ useEffect(() => {
+        
+    //  eslint-disable-next-line prefer-destructuring
+inputRef.current.value = currentTime;
+inputRef.current.max = maxValue;
+     }, [currentTime]);
+
+
+
     return(
-        <Styled.PlayerButtonPlay>
+        <Styled.PlayerButtonPlay onClick={toggleAudio}>
             <Styled.PlayerButtonPlaySvg>
                 <use xlinkHref='img/icon/sprite.svg#icon-play' />
             </Styled.PlayerButtonPlaySvg>
+            {
+                audio && (
+                    <Styled.Audio onTimeUpdate={handleChange}  ref={aud} src='Bobby_Marleni_-_Dropin.mp3' autoPlay></Styled.Audio>
+                    )
+            }
+            <Progress ref={inputRef} value ={currentTime} max={maxValue} />
         </Styled.PlayerButtonPlay>
     )
 }
 
+*/
 function ButtonNext(){
     return(
         <Styled.PlayerButtonNext>
@@ -60,6 +171,7 @@ function ButtonShuffle(){
         </Styled.PlayerButtonShuffle>
     )
 }
+/*
 
 function PlayerControls() {
     return(
@@ -72,6 +184,7 @@ function PlayerControls() {
         </Styled.PlayerControls>
     )
 }
+*/
 
 // ------------------------------Player__Track-Play-----------------------//
 
@@ -198,7 +311,7 @@ function PlayerTrackPlay(){
 
 
 // ----------------------------Bar__Player-------------------------//
-
+/*
 function BarPlayer(){
     return(
         <Styled.BarPlayer>
@@ -207,7 +320,7 @@ function BarPlayer(){
         </Styled.BarPlayer>
     )
 }
-
+*/
 // ----------------------------Bar__Volume---------------------------//
 
 function VolumeImage() {
@@ -239,7 +352,7 @@ function BarVolumeBlock() {
     )
 }
 
-
+/*
 
 function BarPlayerBlock(){
     return(
@@ -253,12 +366,12 @@ function BarPlayerBlock(){
 function BarContent() {
     return(
         <Styled.BarContent>
-            <Progress />
+            <Progress  />
             <BarPlayerBlock />
         </Styled.BarContent>
     )
 }
-
+*/
 
 function Bar() {
     return(
