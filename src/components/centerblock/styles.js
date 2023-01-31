@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import styled from "styled-components";
 
 export const A = styled.a`
@@ -65,7 +66,8 @@ color: #FFFFFF;
 
 &::placeholder {
     background-color: transparent;
-    color: #FFFFFF;
+    color: ${props => props.isTheme === "light" ? '#000000' : '#FFFFFF'};
+
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -118,9 +120,9 @@ font-size: 16px;
 line-height: 24px;
 border-radius: 60px;
 padding: 6px 20px;
-background-color: #181818;
-color: ${props => props.isSelected ? '#AD61FF' : '#FFFFFF'};
-border: ${props => props.isSelected ? '2px solid #AD61FF' : ' 1px solid #FFFFFF'};
+background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#181818"};
+color: ${props => props.isSelected ? '#AD61FF' : (props.theme === "light"? '#000000' : '#FFFFFF')};
+border: ${props => props.isSelected ? '2px solid #AD61FF' : (props.theme === "light"? '1px solid #181818' : ' 1px solid #FFFFFF')};
 &:not(:last-child) {
     margin-right: 10px;
 };
@@ -321,7 +323,8 @@ export const Dropdown = styled.div`
 position: absolute;
 width: 248px;
 height: 305px;
-background: #313131;
+background: ${props => props.theme === "light" ? "#FFFFFF" : "#313131"}; 
+border: ${props => props.theme === "light" ? "2px solid #AD61FF" : 'none'}; 
 border-radius: 12px;
 `;
 
@@ -358,6 +361,7 @@ export const DropdownItem = styled(Li)`
 cursor: pointer;
 margin: 0 -2px;
 padding: 2px 2px;
+color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
 :hover{
     border-color: #AD61FF;
     color: #AD61FF;
@@ -376,7 +380,8 @@ left: 597px;
 top: 288px;
 width: 403px;
 height: 92px;
-background: #313131;
+background: ${props => props.theme === "light" ? "#FFFFFF" : "#313131"}; 
+border: ${props => props.theme === "light" ? "2px solid #AD61FF" : 'none'}; 
 border-radius: 12px;
 display: flex;
 flex-direction: row;
@@ -445,7 +450,7 @@ export const RadioButton = styled.input`
       content: "\f111";
       font-family: "FontAwesome";
       display: block;
-      color: white;
+      color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
       width: 10px;
       height: 10px;
       margin: 3px;

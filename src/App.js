@@ -1,6 +1,9 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+
 import { createGlobalStyle} from 'styled-components';
 
 import { AppRoutes } from "./routes";
+
 
 
 
@@ -53,6 +56,7 @@ body {
     height: 100%;
     font-family: 'StratosSkyeng', sans-serif;
     color: #FFFFFF;
+    background-color: #1C1C1C;
 
 }
 `;
@@ -64,12 +68,16 @@ function App() {
    
  const token = localStorage.getItem('token'); 
 
+
+
   return(
       <>
-      <GlobalStyle /> 
+      <GlobalStyle  /> 
+
+
       
       <AppRoutes user={token} />
-    
+
       </>
       
   )

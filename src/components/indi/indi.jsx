@@ -1,9 +1,10 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { Search, ContentPlaylistTitle, SkeletonTrack, PlayListItem } from "../centerblock/centerblock";
 import  Navigation  from "../navigation/nav";
 import Bar from "../bar/bar";
+import { ThemeContext } from '../../ThemeProvider';
 import * as Styled from './styles'
 
 
@@ -22,8 +23,9 @@ const TRACKS = [
 ];
 
 function HitsTitle() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.CenterblockTitle>Инди заряд</Styled.CenterblockTitle>
+        <Styled.CenterblockTitle theme={theme}>Инди заряд</Styled.CenterblockTitle>
     )
 }
 
@@ -88,9 +90,10 @@ export function CenterBlockContent(){
 }
 
 function MainCenterBlock() {
+    const { theme} = useContext(ThemeContext);
     return(
-        <Styled.MainCenterblock>
-            <Search />
+        <Styled.MainCenterblock theme={theme}>
+            <Search isTheme={theme}/>
             <HitsTitle />
             <CenterBlockContent />
         </Styled.MainCenterblock>
@@ -107,8 +110,9 @@ function Footer() {
 }
 
 function Main() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.Main>
+        <Styled.Main theme={theme}>
             <Navigation />
             <MainCenterBlock />
         </Styled.Main>
@@ -116,8 +120,9 @@ function Main() {
 }
 
 export function PlaylistContainer() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.PlaylistContainer>
+        <Styled.PlaylistContainer theme={theme}>
             <Main />
             <Bar />
             <Footer />

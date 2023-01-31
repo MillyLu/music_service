@@ -5,7 +5,7 @@ position: absolute;
 bottom: 0;
 left: 0;
 width: 100%;
-background: rgba(28, 28, 28, 0.5);
+background:${props => props.theme === "light" ? "#FFFFFF" : "rgba(28, 28, 28, 0.5)"}; 
 `;
 
 export const BarContent = styled.div`
@@ -199,7 +199,7 @@ display: grid;
 export const TrackPlayImage = styled.div`
 width: 51px;
 height: 51px;
-background-color: #313131;
+background-color: ${props => props.theme === "light" ? "#F6F4F4" : "#313131"};
 display: -webkit-box;
 display: -ms-flexbox;
 display: flex;
@@ -242,7 +242,7 @@ font-style: normal;
 font-weight: 400;
 font-size: 13px;
 line-height: 24px;
-color: #FFFFFF;
+color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
 `;
 
 export const TrackPlayLinkAuthor = styled(TrackPlayLinkAlbum)`
@@ -279,13 +279,13 @@ height: 12px;
 fill: transparent;
 stroke: #696969;
 ${TrackPlayLike}:hover & {
-    fill: transparent;
-    stroke: #ACACAC;
+    fill: ${props => props.theme === "light" ? "transparent" :  "transparent"};
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};;
     cursor: pointer;
   }
 ${TrackPlayLike}:active & {
-    fill: #696969;
-    stroke: #FFFFFF;
+    fill: ${props => props.theme === "light" ? "#AD61FF" :  "#696969"};
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#FFFFFF"};
     cursor: pointer;
   }
 `;
@@ -294,13 +294,13 @@ export const TrackPlayDislikeSvg = styled(TrackPlayLikeSvg)`
 width: 14.34px;
 height: 13px;
 ${TrackPlayDislike}:hover & {
-    fill: transparent;
-    stroke: #ACACAC;
+    fill: ${props => props.theme === "light" ? "transparent" :  "transparent"};
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};;
     cursor: pointer;
   }
 ${TrackPlayDislike}:active & {
-    fill: #696969;
-    stroke: #FFFFFF;
+    fill: ${props => props.theme === "light" ? "#AD61FF" :  "#696969"};
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#FFFFFF"};
     cursor: pointer;
   }
 `;

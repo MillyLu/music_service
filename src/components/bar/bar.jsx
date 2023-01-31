@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef} from 'react';
-import * as Styled from './styles'
+import { useState, useEffect, useRef, useContext} from 'react';
+import { ThemeContext } from '../../ThemeProvider';
+import * as Styled from './styles';
+import { ReactComponent as StopSvg } from './stop.svg';
 
 
 
@@ -49,7 +51,7 @@ return(
                  <Styled.PlayerButtonPlaySvg >
                     {
                         audio ? 
-                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
+                        <StopSvg />
                             :
                         <use xlinkHref='img/icon/sprite.svg#icon-play' />
                         
@@ -189,8 +191,9 @@ function PlayerControls() {
 // ------------------------------Player__Track-Play-----------------------//
 
 function TrackPlayImage(){
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.TrackPlayImage>
+        <Styled.TrackPlayImage theme={theme}>
             <Styled.TrackPlaySvg>
                 <use xlinkHref='img/icon/sprite.svg#icon-note' />
             </Styled.TrackPlaySvg>
@@ -199,17 +202,19 @@ function TrackPlayImage(){
 }
 
 function TrackPlayAuthor(props){
+    const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAuthor>
-            <Styled.TrackPlayLinkAuthor href={props.link}>{props.text}</Styled.TrackPlayLinkAuthor>
+            <Styled.TrackPlayLinkAuthor theme={theme} href={props.link}>{props.text}</Styled.TrackPlayLinkAuthor>
         </Styled.TrackPlayAuthor>
     )
 }
 
 function TrackPlayAlbum(props){
+    const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAlbum>
-            <Styled.TrackPlayLinkAlbum href={props.link}>{props.text}</Styled.TrackPlayLinkAlbum>
+            <Styled.TrackPlayLinkAlbum theme={theme} href={props.link}>{props.text}</Styled.TrackPlayLinkAlbum>
         </Styled.TrackPlayAlbum>
     )
 }
@@ -272,9 +277,10 @@ function TrackPlayContain(){
 }
 
 function TrackPlayLike(){
+    const {theme} = useContext(ThemeContext);
     return(
         <Styled.TrackPlayLike>
-            <Styled.TrackPlayLikeSvg alt='like'>
+            <Styled.TrackPlayLikeSvg alt='like' theme={theme}>
                 <use xlinkHref='img/icon/sprite.svg#icon-like' />
             </Styled.TrackPlayLikeSvg>
         </Styled.TrackPlayLike>
@@ -282,9 +288,10 @@ function TrackPlayLike(){
 }
 
 function TrackPlayDislike(){
+    const {theme} = useContext(ThemeContext);
     return(
         <Styled.TrackPlayDislike>
-            <Styled.TrackPlayDislikeSvg alt='dislike'>
+            <Styled.TrackPlayDislikeSvg alt='dislike' theme={theme}>
                 <use xlinkHref='img/icon/sprite.svg#icon-dislike' />
             </Styled.TrackPlayDislikeSvg>
         </Styled.TrackPlayDislike>
@@ -374,8 +381,9 @@ function BarContent() {
 */
 
 function Bar() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.Bar>
+        <Styled.Bar theme={theme}>
             <BarContent />
         </Styled.Bar>
     )

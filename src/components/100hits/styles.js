@@ -22,12 +22,14 @@ flex: 1 1 auto;
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
+background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"};
 `;
 
 export const MainCenterblock = styled.div`
 width: auto;
 flex-grow: 3;
 padding: 20px 40px 20px 111px;
+background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"}; 
 `;
 
 export const CenterblockContent = styled.div`
@@ -81,6 +83,7 @@ font-size: 64px;
 line-height: 72px;
 letter-spacing: -0.8px;
 margin-bottom: 45px;
+color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"}; 
 `;
 
 export const CenterblockFilter = styled.div`
@@ -459,7 +462,7 @@ max-width: 1920px;
 height: 100vh;
 margin: 0 auto;
 position: relative;
-background-color: #181818;
+background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"};
 `;
 
 

@@ -1,50 +1,69 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 
-import { useState, useEffect, useRef } from 'react';
-import * as Styled from './styles'
+
+import { useState, useEffect, useRef, useContext } from 'react';
+import * as Styled from './styles';
+import { ThemeContext } from '../../ThemeProvider';
+import { ReactComponent as SearchSvg } from './search.svg';
+import { ReactComponent as SearchSvgLight } from './searchSvgLight.svg';
+
 
 export function Search() {
+    const { theme} = useContext(ThemeContext);
     return(
         <Styled.CenterblockSearch>
             <Styled.SearchSvg>
-                <use xlinkHref='public/icon/sprite.svg#icon-search' />
+                {
+                    theme === "dark" && (
+                        <SearchSvg />
+                    )
+                }
+                {
+                    theme === "light" && (
+                        <SearchSvgLight />
+                    )
+                }
+                
             </Styled.SearchSvg>
-            <Styled.SearchText type='search' placeholder='Поиск' name='search' />
+
+            <Styled.SearchText isTheme={theme} type='search' placeholder='Поиск' name='search' style={{"backgroundColor": theme==="light" ? "#FFFFFF" : "#1C1C1C", "color": theme === "light" ? "#000000" : "#FFFFFF"}}/>
         </Styled.CenterblockSearch>
     )
-}
+} 
 
-export function Title() {
+export function Title() {               
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.CenterblockTitle>Треки</Styled.CenterblockTitle>
+        <Styled.CenterblockTitle style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Треки</Styled.CenterblockTitle>
     )
 }
 
 function FilterButtonAuthor() {
-    
+   const {theme} = useContext(ThemeContext); 
     return(
-        <Styled.DropdownPerformer>
+        <Styled.DropdownPerformer theme={theme}>
 
                 <Styled.DropdownList>
-                    <Styled.DropdownItem>Michael Jackson</Styled.DropdownItem>
-                    <Styled.DropdownItem>Frank Sinatra</Styled.DropdownItem>
-                    <Styled.DropdownItem>Calvin Harris</Styled.DropdownItem>
-                    <Styled.DropdownItem>Zhu</Styled.DropdownItem>
-                    <Styled.DropdownItem>Arctic Monkeys</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Michael Jackson</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Frank Sinatra</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Calvin Harris</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Zhu</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Arctic Monkeys</Styled.DropdownItem>
                 </Styled.DropdownList>     
         </Styled.DropdownPerformer> 
     )
 }
 
 function FilterButtonGenre() {
-    
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.DropdownGenre>
-                <Styled.DropdownList>
-                    <Styled.DropdownItem>Рок</Styled.DropdownItem>
-                    <Styled.DropdownItem>Хип-Хоп</Styled.DropdownItem>
-                    <Styled.DropdownItem>Поп-музыка</Styled.DropdownItem>
-                    <Styled.DropdownItem>Техно</Styled.DropdownItem>
-                    <Styled.DropdownItem>Инди</Styled.DropdownItem>
+        <Styled.DropdownGenre theme={theme}>
+                <Styled.DropdownList >
+                    <Styled.DropdownItem theme={theme}>Рок</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Хип-Хоп</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Поп-музыка</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Техно</Styled.DropdownItem>
+                    <Styled.DropdownItem theme={theme}>Инди</Styled.DropdownItem>
                 </Styled.DropdownList>     
         </Styled.DropdownGenre> 
     )
@@ -58,11 +77,12 @@ function FilterButtonYear() {
       const{ value } = event.target;
       setSelect(value);
     };
-  
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.Year>
+        <Styled.Year theme={theme}>
             <Styled.Item>
                 <Styled.RadioButton
+                theme={theme}
                     type="radio"
                     name="year"
                     value="new"
@@ -70,10 +90,11 @@ function FilterButtonYear() {
                     onChange={event => handleSelectChange(event)}
                 />
                 <Styled.RadioButtonLabel />
-                <div>Более новые</div>
+                <div style={{color:theme === "light" ? "#000000" : "#FFFFFF"}}>Более новые</div>
             </Styled.Item>
             <Styled.Item>
                 <Styled.RadioButton
+                theme={theme}
                 type="radio"
                 name="year"
                 value="old"
@@ -81,7 +102,7 @@ function FilterButtonYear() {
                 onChange={event => handleSelectChange(event)}
                  />
                 <Styled.RadioButtonLabel />
-                <div>Более старые</div>
+                <div style={{color:theme === "light" ? "#000000" : "#FFFFFF"}}>Более старые</div>
             </Styled.Item>
             
         </Styled.Year>
@@ -152,7 +173,7 @@ function Filter() {
     const [isFilterOpen, setVisible] = useState(false);
     const [isFilterGenreOpen, setOpen] = useState(false);
     const [isFilterYearOpen, setYearOpen] = useState(false);
-
+    const {theme} = useContext(ThemeContext);
 
     const toggleVisibility = () => setVisible((isOpen) => !isOpen);
 
@@ -182,20 +203,20 @@ function Filter() {
        
     return(
         <Styled.CenterblockFilter>
-            <Styled.FilterTitle>Искать по:</Styled.FilterTitle>
-            <Styled.FilterButtons isSelected={isFilterOpen} ref={ref} onClick={() => { toggleVisibility()}}  aria-hidden="true" role="button" tabIndex={0}>исполнителю</Styled.FilterButtons>
+            <Styled.FilterTitle style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Искать по:</Styled.FilterTitle>
+            <Styled.FilterButtons theme={theme} isSelected={isFilterOpen} ref={ref} onClick={() => { toggleVisibility()}}  aria-hidden="true" role="button" tabIndex={0}>исполнителю</Styled.FilterButtons>
             {isFilterOpen && (
                     
                     <FilterButtonAuthor />
                     
                 )}
-            <Styled.FilterButtons isSelected={isFilterYearOpen} ref={year} onClick={() => {toggleYearFilter()}} aria-hidden="true" role="button" tabIndex={0}>году выпуска</Styled.FilterButtons>
+            <Styled.FilterButtons theme={theme} isSelected={isFilterYearOpen} ref={year} onClick={() => {toggleYearFilter()}} aria-hidden="true" role="button" tabIndex={0}>году выпуска</Styled.FilterButtons>
             {isFilterYearOpen && (
                 <FilterButtonYear />
             )
 
             }
-            <Styled.FilterButtons isSelected={isFilterGenreOpen} ref={genre} onClick={toggleGenreFilter} aria-hidden="true" role="button" tabIndex={0}>жанру</Styled.FilterButtons>
+            <Styled.FilterButtons theme={theme} isSelected={isFilterGenreOpen} ref={genre} onClick={toggleGenreFilter} aria-hidden="true" role="button" tabIndex={0}>жанру</Styled.FilterButtons>
             {isFilterGenreOpen && (
                     
                     <FilterButtonGenre />
@@ -320,23 +341,28 @@ export function SkeletonTrack() {
 
 
 
-export function PlayListItem({author, album, time, title, subtitle}) {
+export function PlayListItem({author, album, time, title, subtitle}) { 
+    const {theme} = useContext(ThemeContext);
     return(
         <Styled.PlaylistItem> 
             <Styled.PlaylistTrack>
                 <Styled.TrackTitle>
-                    <Styled.TrackTitleImage>
-                        <Styled.TrackTitleSvg alt='music'>
-                            <use xlinkHref='img/icon/sprite.svg#icon-note' />
+                    <Styled.TrackTitleImage style={{ backgroundColor: theme === "light" ? "#F6F4F4" : "#313131" }}>
+                        <Styled.TrackTitleSvg alt='music' >
+
+
+                                <use xlinkHref='img/icon/sprite.svg#icon-note' />
+
+                            
                         </Styled.TrackTitleSvg>
                     </Styled.TrackTitleImage>
                     <Styled.TrackTitleText>
-                        <Styled.TrackTitleLink href='http://'>{title}<Styled.TrackTitleSpan>{subtitle}</Styled.TrackTitleSpan></Styled.TrackTitleLink>
+                        <Styled.TrackTitleLink href='http://' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{title}<Styled.TrackTitleSpan>{subtitle}</Styled.TrackTitleSpan></Styled.TrackTitleLink>
                        
                     </Styled.TrackTitleText>
                 </Styled.TrackTitle>
                 <Styled.TrackAuthor>
-                    <Styled.TrackAuthorLink href='http://'>{author}</Styled.TrackAuthorLink>
+                    <Styled.TrackAuthorLink href='http://' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{author}</Styled.TrackAuthorLink>
                 </Styled.TrackAuthor>
                 <Styled.TrackAlbum>
                     <Styled.TrackAlbumLink href='http://'>{album}</Styled.TrackAlbumLink>
@@ -434,8 +460,9 @@ export function CenterBlockContent(){
 // ------------------------------------ //
 
 function MainCenterBlock() {
+    const { theme} = useContext(ThemeContext);
     return(
-        <Styled.MainCenterblock>
+        <Styled.MainCenterblock style={{ backgroundColor: theme === "light" ? "#FFFFFF" : "#1C1C1C" }}>
             <Search />
             <Title />
             <Filter />

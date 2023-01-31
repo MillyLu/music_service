@@ -1,12 +1,14 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ThemeContext } from '../../ThemeProvider';
 import * as Styled from './styles'
 
  // ------------------------------ SideBar-------------------------- //
 
 function UserName() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.SidebarPersonalName>Sergey.Ivanov</Styled.SidebarPersonalName>
+        <Styled.SidebarPersonalName theme={theme}>Sergey.Ivanov</Styled.SidebarPersonalName>
     )
 }
 
@@ -17,8 +19,9 @@ function UserAvatar() {
 }
 
 function SidebarPersonal() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.SidebarPersonal>
+        <Styled.SidebarPersonal theme={theme}>
             <UserName />
             <UserAvatar />
         </Styled.SidebarPersonal>
@@ -87,8 +90,9 @@ function SidebarBlock() {
 }
 
 function MainSideBar() {
+    const {theme} = useContext(ThemeContext);
     return(
-        <Styled.MainSidebar>
+        <Styled.MainSidebar theme={theme}>
             <SidebarPersonal />
             <SidebarBlock />
         </Styled.MainSidebar>

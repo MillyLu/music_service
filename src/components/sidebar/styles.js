@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const MainSidebar = styled.div`
 max-width: 418px;
 padding: 20px 90px 20px 78px;
+background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"};
 `;
 
 export const SidebarPersonal = styled(MainSidebar)`
@@ -26,7 +27,7 @@ font-style: normal;
 font-weight: 400;
 font-size: 16px;
 line-height: 24px;
-color: #FFFFFF;
+color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
 margin-right: 16px;
 `;
 
