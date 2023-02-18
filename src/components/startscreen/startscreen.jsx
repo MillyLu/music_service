@@ -3,6 +3,11 @@
 
 
 import { useNavigate } from 'react-router-dom';
+import { useState} from 'react';
+import { useDispatch} from 'react-redux';
+import { useGetUserTokenMutation, useLoginUserMutation } from '../../services/user';
+import { setUser} from '../../store/state';
+
 
 import * as Styled from './styles';
 import logo from './logo-log.png';
@@ -23,22 +28,6 @@ function StartscreenLogo () {
 
 }
 
-function StartscreenLogin () {
-    return(
-        <>
-        <Styled.StartscreenInput type='login' placeholder='Логин'></Styled.StartscreenInput>
-        <Styled.StartscreenInput type='password' name='password' placeholder='Пароль'></Styled.StartscreenInput>
-        </>
-
-    )
-}
-
-function StartscreenEnter () {
-
-    return(
-        <Styled.StartscreenButton >Войти</Styled.StartscreenButton>
-    )
-}
 
 function StartscreenButtonRegister () {
     const navigate = useNavigate();
@@ -57,20 +46,44 @@ function StartscreenButtonRegister () {
 }
 
 function StartscreenForm() {
-    const navigate = useNavigate();
-    const path = "/";
 
-    const handleSubmit = (e) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [loginUser] = useLoginUserMutation();
+     const [getUserToken] = useGetUserTokenMutation();
+    // const navigate = useNavigate();
+     // const path = "/";
+     const dispatch = useDispatch();
+    
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        localStorage.setItem('token', 'true');
-        navigate( path, { replace: true });
+        if(username && password) {
+            await loginUser({username, email, password}).unwrap()
+            // localStorage.setItem('token', 'true');
+             await getUserToken({username, email, password}).unwrap()
+             .then((data) => dispatch(setUser({token: data.access})))
+            // .then((data) => localStorage.setItem('userToken', data.access))
+            
+             
+            
+
+            // navigate( path, { replace: true });
+        }
+
+        // const token = useSelector((state) => state.auth);
+
+
       
         }
 
     return(
         <Styled.StartscreenForm onSubmit={handleSubmit}>
-            <StartscreenLogin />
-            <StartscreenEnter />
+            <Styled.StartscreenInput type='login' placeholder='Логин' value={username} onChange={(e)=>setUsername(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInput type='email' placeholder='Введите email' value={email} onChange={(e)=>setEmail(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInput type='password' placeholder='Пароль' value={password} onChange={(e)=>setPassword(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenButton >Войти</Styled.StartscreenButton>
             <StartscreenButtonRegister />          
 
         </Styled.StartscreenForm>

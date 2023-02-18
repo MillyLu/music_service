@@ -11,7 +11,9 @@ import { ProtectedRoute } from "./components/protected-route/protected-route";
 
 
 
+
 export function AppRoutes ({ user })  {
+
   return (
     <Routes>
         <Route path="/login" element={<Login />} />

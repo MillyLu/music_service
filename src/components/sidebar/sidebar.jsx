@@ -1,4 +1,4 @@
-
+import { NavLink } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { ThemeContext } from '../../ThemeProvider';
 import * as Styled from './styles'
@@ -32,9 +32,9 @@ function SidebarItem(props) {
 
     return(
         <Styled.SidebarItem>
-            <Styled.SidebarLink href={props.href}>
+            <NavLink className="App-link" to={props.href}>
                 <Styled.SidebarImage src={props.image} alt='day"s playlist' />
-            </Styled.SidebarLink>
+            </NavLink>
         </Styled.SidebarItem>
     )
 }
@@ -63,9 +63,9 @@ function SidebarList() {
         <Styled.SidebarList>
             {!skeleton ?
             (<>
-                <SidebarItem image = "playlist01.png" href="" />
-                <SidebarItem image = "playlist02.png" href="" />
-                <SidebarItem image = "playlist03.png" href="" />
+                <SidebarItem image = "playlist01.png" href="/playlist/1" />
+                <SidebarItem image = "playlist02.png" href="/hits/1" />
+                <SidebarItem image = "playlist03.png" href="/indi/1" />
             </>)
                 
                 :

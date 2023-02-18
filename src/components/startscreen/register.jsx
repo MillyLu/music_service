@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useSignupUserMutation } from '../../services/user';
 import * as Styled from './styles';
 import logo from './logo-log.png'
 
@@ -12,43 +14,42 @@ function RegisterLogo () {
 
 }
 
-function RegisterLogin () {
-    return(
-        <>
-        <Styled.StartscreenInput type='login' placeholder='Логин'></Styled.StartscreenInput>
-        <Styled.StartscreenInput type='password' name='password' placeholder='Пароль'></Styled.StartscreenInput>
-        <Styled.StartscreenInput type='password' name='passwordR' placeholder='Повторите пароль'></Styled.StartscreenInput>
-        </>
+function RegisterForm () {
 
-    )
-}
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [signupUser] = useSignupUserMutation();
 
+     const navigate = useNavigate();
+     const path = "/login";
 
-function RegisterButton () {
-    const navigate = useNavigate();
-    const path = "/login";
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        navigate( path, { replace: true });
+        if(username && email && password) {
+            await signupUser({username, email, password}).unwrap()
+            .then(() => navigate( path, { replace: true }))
+            .catch((error) => console.error('rejected', error))
+            
+        }   
       
         }
 
-
-    return(
-        <Styled.StartscreenButton onClick={handleSubmit}>Зарегистрироваться</Styled.StartscreenButton>
-    )
-}
-
-function RegisterForm() {
     return(
         <Styled.StartscreenForm>
-            <RegisterLogin />
-            <RegisterButton />
+            <Styled.StartscreenInput type='login' placeholder='Логин' value={username} onChange={(e)=>setUsername(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInput type='email' placeholder='Введите email' value={email} onChange={(e)=>setEmail(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInput type='password' placeholder='Пароль' value={password} onChange={(e)=>setPassword(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInput type='password' placeholder='Повторите пароль'></Styled.StartscreenInput>
+            <Styled.StartscreenButton onClick={handleSubmit}>Зарегистрироваться</Styled.StartscreenButton>
+
         </Styled.StartscreenForm>
 
     )
 }
+
+
+
 
 function RegisterModal () {
     return(

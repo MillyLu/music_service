@@ -39,10 +39,10 @@ font-size: 18px;
 line-height: 24px;
 letter-spacing: -0.003em;
 color: #E1E1E1;
-padding: 8px 0;
+padding: 8px 10px;
 border-width: 0 0 1px 0;
 border-color: #D0CECE;
-margin-bottom: 38px;
+margin-bottom: 25px;
 `;
 
 export const StartscreenButton = styled.button`
