@@ -52,8 +52,8 @@ function StartscreenForm() {
     const [email, setEmail] = useState('');
     const [loginUser] = useLoginUserMutation();
      const [getUserToken] = useGetUserTokenMutation();
-    // const navigate = useNavigate();
-     // const path = "/";
+     const navigate = useNavigate();
+     const path = "/";
      const dispatch = useDispatch();
     
 
@@ -63,15 +63,17 @@ function StartscreenForm() {
             await loginUser({username, email, password}).unwrap()
             // localStorage.setItem('token', 'true');
              await getUserToken({username, email, password}).unwrap()
-             .then((data) => dispatch(setUser({token: data.access})))
+             .then((data) => {dispatch(setUser({token: data.access}))} )
+             .then(() => localStorage.setItem('token', 'true'))
+             .then(()=> navigate( path, { replace: true }))
             // .then((data) => localStorage.setItem('userToken', data.access))
-            
+
              
             
 
-            // navigate( path, { replace: true });
+             
         }
-
+        
         // const token = useSelector((state) => state.auth);
 
 
