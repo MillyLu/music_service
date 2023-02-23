@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 
 import { createGlobalStyle} from 'styled-components';
-
+import { useEffect } from 'react';
 import { AppRoutes } from "./routes";
+import {useRefreshUserTokenMutation} from "./services/user";
 
 
 
@@ -68,7 +69,43 @@ body {
 function App() {
    
  const token = localStorage.getItem('token'); 
-
+ 
+ const toki = localStorage.getItem('toki');
+ console.log(toki);
+  
+ 
+ 
+ 
+ 
+   const [refreshT] = useRefreshUserTokenMutation();
+ 
+ 
+ 
+   const handleRefreshAccess = () => {
+     
+     
+        
+           refreshT({ refresh: localStorage.getItem('toki')})
+       }
+ 
+   useEffect(() => {
+     // handleRefreshAccess()
+    // setRefresh(tokenString);
+     const timer = setInterval(handleRefreshAccess, 30000)
+     return () => clearInterval(timer)
+   }, [])
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
   return(
