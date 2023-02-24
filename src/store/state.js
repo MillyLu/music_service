@@ -31,4 +31,3 @@ export const { setUser, defaultState } = authSlice.actions;
 export default authSlice.reducer;
 
 export const authSelector = (store) => store.auth;
-    

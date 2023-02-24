@@ -64,7 +64,7 @@ function StartscreenForm() {
             // localStorage.setItem('token', 'true');
              await getUserToken({username, email, password}).unwrap()
              // .then((data) => localStorage.setItem('toki', data.refresh))
-             .then((data) => {dispatch(setUser({refresh: data.refresh, access: data.access}))} )
+              .then((data) => {dispatch(setUser({refresh: data.refresh, access: data.access}))} )
              .then(() => localStorage.setItem('token', 'true'))
              .then(()=> navigate( path, { replace: true }))
             // .then((data) => localStorage.setItem('userToken', data.access))
