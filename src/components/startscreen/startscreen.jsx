@@ -4,7 +4,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useState} from 'react';
-import { useDispatch} from 'react-redux';
+ import { useDispatch} from 'react-redux';
 import { useGetUserTokenMutation, useLoginUserMutation } from '../../services/user';
 import { setUser} from '../../store/state';
 
@@ -52,9 +52,9 @@ function StartscreenForm() {
     const [email, setEmail] = useState('');
     const [loginUser] = useLoginUserMutation();
      const [getUserToken] = useGetUserTokenMutation();
-    // const navigate = useNavigate();
-     // const path = "/";
-     const dispatch = useDispatch();
+     const navigate = useNavigate();
+     const path = "/";
+    const dispatch = useDispatch();
     
 
     const handleSubmit = async (e) => {
@@ -63,15 +63,18 @@ function StartscreenForm() {
             await loginUser({username, email, password}).unwrap()
             // localStorage.setItem('token', 'true');
              await getUserToken({username, email, password}).unwrap()
-             .then((data) => dispatch(setUser({token: data.access})))
+             // .then((data) => localStorage.setItem('toki', data.refresh))
+              .then((data) => {dispatch(setUser({refresh: data.refresh, access: data.access}))} )
+             .then(() => localStorage.setItem('token', 'true'))
+             .then(()=> navigate( path, { replace: true }))
             // .then((data) => localStorage.setItem('userToken', data.access))
-            
+
              
             
 
-            // navigate( path, { replace: true });
+             
         }
-
+        
         // const token = useSelector((state) => state.auth);
 
 

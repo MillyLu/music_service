@@ -4,17 +4,23 @@ import { createSlice} from "@reduxjs/toolkit";
  // PayloadActions 
 
 const initialState = {
-    token: null,
+    refresh: null,
+    access: null,
+
 };
 
 export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setUser: (action, state = initialState) => {
-            // const { token } = action.payload;
-            state.token = action.payload.token;
-        },
+         setUser: (state, {payload}) => {
+            const { access, refresh } = payload
+            state.refresh = refresh;
+            state.access = access;
+            localStorage.setItem('refresh', refresh);
+            console.log(localStorage.getItem('refresh'));
+        }, 
+        
         defaultState: (state) => {
             state = initialState;
         },
@@ -25,4 +31,3 @@ export const { setUser, defaultState } = authSlice.actions;
 export default authSlice.reducer;
 
 export const authSelector = (store) => store.auth;
-    
