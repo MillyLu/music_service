@@ -5,11 +5,11 @@ export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "https://painassasin.online/user",
-        prepareHeaders: (headers, { getState }) => {
+        /* prepareHeaders: (headers, { getState }) => {
             if(getState().auth.token != null) {const {tok} = getState().auth.token;
             if(tok) {headers.set('authorization', `Bearer ${tok}`)};                  
         }
-            return headers} 
+            return headers} */
     }),      
 
     endpoints: (builder) => ({
