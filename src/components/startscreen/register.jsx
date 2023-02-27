@@ -39,7 +39,8 @@ function RegisterForm () {
         <Styled.StartscreenForm>
             <Styled.StartscreenInput type='login' placeholder='Логин' value={username} onChange={(e)=>setUsername(e.target.value)}></Styled.StartscreenInput>
             <Styled.StartscreenInput type='email' placeholder='Введите email' value={email} onChange={(e)=>setEmail(e.target.value)}></Styled.StartscreenInput>
-            <Styled.StartscreenInput type='password' placeholder='Пароль' value={password} onChange={(e)=>setPassword(e.target.value)}></Styled.StartscreenInput>
+            <Styled.StartscreenInputNoMargin type='password' placeholder='Пароль' value={password} onChange={(e)=>setPassword(e.target.value)}></Styled.StartscreenInputNoMargin>
+            <Styled.PasswordHelp>(Пароль должен содержать как минимум 8 символов)</Styled.PasswordHelp>
             <Styled.StartscreenInput type='password' placeholder='Повторите пароль'></Styled.StartscreenInput>
             <Styled.StartscreenButton onClick={handleSubmit}>Зарегистрироваться</Styled.StartscreenButton>
 
