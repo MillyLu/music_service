@@ -1,4 +1,6 @@
 import { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 // import { useTheme } from '../../ThemeProvider';
 import logo from './logo.png';
 import logoLight from './logoLight.png';
@@ -6,6 +8,7 @@ import { ReactComponent as SomeSvgSvg } from './darkTheme.svg';
 import { ReactComponent as SomeSvgSvgLight } from './lightTheme.svg';
 import * as Styled from './styles'
 import { ThemeContext } from '../../ThemeProvider';
+import { deleteUser } from '../../store/state';
 
 function Logo() {
     const { theme} = useContext(ThemeContext);
@@ -47,6 +50,17 @@ export function ThemeSwitcher() {
 
 function Menu() {
     const { theme} = useContext(ThemeContext);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    const path = "/login";
+
+    const handleLogout = (e)  => {
+        e.preventDefault();
+        dispatch(deleteUser())
+        localStorage.removeItem("token")
+        navigate( path)
+    }
     return(
         <Styled.NavMenu>
             <Styled.MenuList>
@@ -54,10 +68,10 @@ function Menu() {
                     <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Главная</Styled.Link>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
-                    <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Мой плейлист</Styled.Link>
+                    <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Мой треки</Styled.Link>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
-                    <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Войти</Styled.Link>
+                    <Styled.Link onClick={handleLogout} style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Выйти</Styled.Link>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
                     <ThemeSwitcher />

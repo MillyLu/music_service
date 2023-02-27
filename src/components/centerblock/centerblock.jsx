@@ -1,3 +1,6 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-duplicate-props */
 
 
@@ -6,10 +9,27 @@ import * as Styled from './styles';
 import { ThemeContext } from '../../ThemeProvider';
 import { ReactComponent as SearchSvg } from './search.svg';
 import { ReactComponent as SearchSvgLight } from './searchSvgLight.svg';
+import { useGetAllTracksQuery } from '../../services/track';
 
 
-export function Search() {
+
+export function Search(props) {
     const { theme} = useContext(ThemeContext);
+
+    const[search, setSearch] = useState('');
+
+    const handleKey = (e) => {
+        if(e.keyCode === 13) {
+            console.log("work");
+            console.log(search);
+            props.searchTracks(search)
+        }
+    }
+
+    const handleChangeSearch = (e) => {
+        setSearch(e.target.value)
+    }
+  
     return(
         <Styled.CenterblockSearch>
             <Styled.SearchSvg>
@@ -26,7 +46,7 @@ export function Search() {
                 
             </Styled.SearchSvg>
 
-            <Styled.SearchText isTheme={theme} type='search' placeholder='Поиск' name='search' style={{"backgroundColor": theme==="light" ? "#FFFFFF" : "#1C1C1C", "color": theme === "light" ? "#000000" : "#FFFFFF"}}/>
+            <Styled.SearchText isTheme={theme} onChange={handleChangeSearch} onKeyDown={handleKey} type='search' placeholder='Поиск' name='search' style={{"backgroundColor": theme==="light" ? "#FFFFFF" : "#1C1C1C", "color": theme === "light" ? "#000000" : "#FFFFFF"}}/>
         </Styled.CenterblockSearch>
     )
 } 
@@ -38,45 +58,106 @@ export function Title() {
     )
 }
 
-function FilterButtonAuthor() {
+function FilterButtonAuthor(props) {
    const {theme} = useContext(ThemeContext); 
+
+   const [authors, setAuthors] = useState([]);
+   const [chosenAuthor, setChosenAuthor] = useState('');
+
+   useEffect(() => {
+const object = {};
+// eslint-disable-next-line no-return-assign
+const unicAuthors = props.data.filter(({author}) =>(!object[author] && (object[author] = 1)));
+    setAuthors(unicAuthors)
+   },[])
+   
+let value;
+
+   const handleAuthorChoose = (e) => {
+        // eslint-disable-next-line prefer-destructuring
+        value = e.target.childNodes[0].data;
+        setChosenAuthor(value); 
+        console.log(chosenAuthor);
+        
+   }
+
+   useEffect(() => {
+    props.getTracksByAuthor(chosenAuthor);
+}, [chosenAuthor])
+   
+
+   const authorsList = authors.map((item) => 
+   <Styled.DropdownItem key={item.id} value={item.author} theme={theme} onClick={handleAuthorChoose}>{item.author}</Styled.DropdownItem>
+   )
     return(
         <Styled.DropdownPerformer theme={theme}>
 
                 <Styled.DropdownList>
-                    <Styled.DropdownItem theme={theme}>Michael Jackson</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Frank Sinatra</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Calvin Harris</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Zhu</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Arctic Monkeys</Styled.DropdownItem>
+                    {authorsList}
+                  
                 </Styled.DropdownList>     
         </Styled.DropdownPerformer> 
     )
 }
 
-function FilterButtonGenre() {
+function FilterButtonGenre(props) {
     const {theme} = useContext(ThemeContext);
+    
+    const[genres, setGenres] = useState([]);
+    const [chosenGenre, setChosenGenre] = useState('');
+
+    useEffect(() => {
+        const object = {};
+        // eslint-disable-next-line no-return-assign
+        const unicGenres = props.data.filter(({genre}) =>(!object[genre] && (object[genre] = 1)));
+            setGenres(unicGenres)
+           },[]);
+
+         
+           
+           let value;
+
+   const handleGenreChoose = (e) => {
+        // eslint-disable-next-line prefer-destructuring
+        value = e.target.childNodes[0].data;
+        setChosenGenre(value); 
+        console.log(chosenGenre);
+        
+   }
+
+   useEffect(() => {
+    props.getTracksByGenre(chosenGenre);
+}, [chosenGenre])
+   
+const genreList = genres.map((item) => 
+<Styled.DropdownItem key={item.id} theme={theme} onClick={handleGenreChoose}>{item.genre}</Styled.DropdownItem>
+)  
     return(
         <Styled.DropdownGenre theme={theme}>
                 <Styled.DropdownList >
-                    <Styled.DropdownItem theme={theme}>Рок</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Хип-Хоп</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Поп-музыка</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Техно</Styled.DropdownItem>
-                    <Styled.DropdownItem theme={theme}>Инди</Styled.DropdownItem>
+                    {genreList}
                 </Styled.DropdownList>     
         </Styled.DropdownGenre> 
     )
 }
 
-function FilterButtonYear() {
-    
-    const [select, setSelect] = useState("optionA");
+function FilterButtonYear(props) {  
 
-    const handleSelectChange = (event) => {
-      const{ value } = event.target;
-      setSelect(value);
-    };
+
+    
+    const [year,setYear] = useState();
+
+    const changeChoose = (e) => {
+
+        setYear(e.target.value)
+    }
+
+    useEffect(() => {
+        console.log(year);
+        props.getTracksByData(year)
+
+    }, [changeChoose]);
+
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.Year theme={theme}>
@@ -86,8 +167,9 @@ function FilterButtonYear() {
                     type="radio"
                     name="year"
                     value="new"
-                    checked={select === "new"}
-                    onChange={event => handleSelectChange(event)}
+                    checked={year==="new"}
+                    onChange={changeChoose}
+                  
                 />
                 <Styled.RadioButtonLabel />
                 <div style={{color:theme === "light" ? "#000000" : "#FFFFFF"}}>Более новые</div>
@@ -98,8 +180,8 @@ function FilterButtonYear() {
                 type="radio"
                 name="year"
                 value="old"
-                checked={select === "old"}
-                onChange={event => handleSelectChange(event)}
+                checked={year==="old"}
+                onChange={changeChoose}
                  />
                 <Styled.RadioButtonLabel />
                 <div style={{color:theme === "light" ? "#000000" : "#FFFFFF"}}>Более старые</div>
@@ -169,7 +251,7 @@ const useOutsideClickAuthor = (callback) => {
     return genre;
   };
 
-function Filter() {
+function Filter({data, getTracksByAuthor, getTracksByData, getTracksByGenre}) {
     const [isFilterOpen, setVisible] = useState(false);
     const [isFilterGenreOpen, setOpen] = useState(false);
     const [isFilterYearOpen, setYearOpen] = useState(false);
@@ -202,24 +284,24 @@ function Filter() {
         
        
     return(
-        <Styled.CenterblockFilter>
+        <Styled.CenterblockFilter data={data} getTracksByAuthor={getTracksByAuthor} getTracksByData={getTracksByData} getTracksByGenre={getTracksByGenre}>
             <Styled.FilterTitle style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Искать по:</Styled.FilterTitle>
-            <Styled.FilterButtons theme={theme} isSelected={isFilterOpen} ref={ref} onClick={() => { toggleVisibility()}}  aria-hidden="true" role="button" tabIndex={0}>исполнителю</Styled.FilterButtons>
+            <Styled.FilterButtons getTracksByAuthor={getTracksByAuthor} data={data} theme={theme} isSelected={isFilterOpen} ref={ref} onClick={() => { toggleVisibility()}}  aria-hidden="true" role="button" tabIndex={0}>исполнителю</Styled.FilterButtons>
             {isFilterOpen && (
                     
-                    <FilterButtonAuthor />
+                    <FilterButtonAuthor data={data} getTracksByAuthor={getTracksByAuthor}/>
                     
                 )}
-            <Styled.FilterButtons theme={theme} isSelected={isFilterYearOpen} ref={year} onClick={() => {toggleYearFilter()}} aria-hidden="true" role="button" tabIndex={0}>году выпуска</Styled.FilterButtons>
+            <Styled.FilterButtons getTracksByData={getTracksByData} theme={theme} isSelected={isFilterYearOpen} ref={year} onClick={() => {toggleYearFilter()}} aria-hidden="true" role="button" tabIndex={0}>году выпуска</Styled.FilterButtons>
             {isFilterYearOpen && (
-                <FilterButtonYear />
+                <FilterButtonYear getTracksByData={getTracksByData} />
             )
 
             }
-            <Styled.FilterButtons theme={theme} isSelected={isFilterGenreOpen} ref={genre} onClick={toggleGenreFilter} aria-hidden="true" role="button" tabIndex={0}>жанру</Styled.FilterButtons>
+            <Styled.FilterButtons getTracksByGenre={getTracksByGenre} data={data} theme={theme} isSelected={isFilterGenreOpen} ref={genre} onClick={toggleGenreFilter} aria-hidden="true" role="button" tabIndex={0}>жанру</Styled.FilterButtons>
             {isFilterGenreOpen && (
                     
-                    <FilterButtonGenre />
+                    <FilterButtonGenre data={data} getTracksByGenre={getTracksByGenre}/>
                     
                 )}
         </Styled.CenterblockFilter>
@@ -228,7 +310,7 @@ function Filter() {
 
 // --------------------------CenterBlock__Content-------------------//
 
-const tracks = [
+/* const tracks = [
     {id: 1, author: 'Nero', album: 'Welcome Reality', title: 'Guilt', time: '4:44'},
     {id: 2, author: 'Dynoro, Outwork, Mr. Gee', album: 'Elektro', time: '2:22', title: 'Elektro'},
     {id: 3, author: 'Ali Bakgor', album: 'I’m Fire', time: '2:22', title: 'I’m Fire'},
@@ -239,7 +321,7 @@ const tracks = [
     {id: 8, author: 'minthaze', album: 'Captivating', time: '1:48', title: 'Knives n Cherries'},
     {id: 9, author: 'Calvin Harris, Disciples', album: 'How Deep Is Your Love', time: '3:32', title: 'How Deep Is Your Love'},
     {id: 10, author: 'Tom Boxer', album: 'Soundz Made in Romania', time: '3:36', title: 'Morena'},
-]
+] */
 
 
 export function ContentPlaylistTitle(){
@@ -395,11 +477,20 @@ function PlayListItem(){
 }
 */
 
-export function Content () {
+export function Content ({tracks}) {
+
+    const timeConvert = (time) => {
+        const minutes = Math.trunc(Number(time)/60);
+        const seconds = Number(time) - minutes*60;
+        return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`
+    } 
+
     return(
 
-            tracks.map(({id, author, album, title, subtitle, time}) => 
-            <PlayListItem key={id} author={author} album={album} title={title} subtitle={subtitle} time={time}/>
+            tracks.map((item) =>             
+             <PlayListItem key={item.id} author={item.author} album={item.album} title={item.name} subtitle={item.extraName} time={timeConvert(item.duration_in_seconds)}/>
+            
+           
             )
 
     )
@@ -407,7 +498,7 @@ export function Content () {
 }
 
 
-export function ContentPlaylistPlaylist() {
+export function ContentPlaylistPlaylist({tracks}) {
 
 
     const [skeleton, setSkeleton] = useState(false);
@@ -425,7 +516,7 @@ export function ContentPlaylistPlaylist() {
     return(
         <Styled.ContentPlaylist>
              {!skeleton ?
-             <Content /> :
+             <Content tracks={tracks}/> :
              (
              <>
              <SkeletonTrack />
@@ -448,11 +539,11 @@ export function ContentPlaylistPlaylist() {
 }
 
 
-export function CenterBlockContent(){
+export function CenterBlockContent({tracks}){
     return(
         <Styled.CenterblockContent>
             <ContentPlaylistTitle />
-            <ContentPlaylistPlaylist />
+            <ContentPlaylistPlaylist tracks={tracks} />
         </Styled.CenterblockContent>
     )
 }
@@ -460,13 +551,105 @@ export function CenterBlockContent(){
 // ------------------------------------ //
 
 function MainCenterBlock() {
-    const { theme} = useContext(ThemeContext);
+
+
+
+    const { theme } = useContext(ThemeContext);
+    const [tracks, setTracks] = useState([]); // выводит трек-лист
+    const [searchTracks, setSearchTracks] = useState([]); // трек-лист, сформированнный по поиску
+    const [filterByAuthor, setFilterByAuthor] = useState([]); // трек-лист фильтрации по автору
+    const [filterByYear, setFilterByYear] = useState([]); // трек-лист для фильтрации по году
+    const [filterByGenre, setFiltersByGenre] = useState([]); // трек-лист для фильтрации по жанру
+
+    const { data: tracksAll =[], isSuccess: isTracksSuccess } = useGetAllTracksQuery();
+
+    console.log(tracksAll);
+    const trackList = structuredClone(tracksAll);
+
+
+    let searchingTracks;
+    let tracksByAuthor;
+    let tracksByData;
+    let tracksByGenre;
+
+    function getTracksByAuthor (auth) {
+        tracksByAuthor = tracksAll.filter((item) => 
+        item.author.toLowerCase().includes(auth.toLowerCase())
+        );
+        setFilterByAuthor(tracksByAuthor)
+    }
+
+    function getTracksByGenre (genr) {
+        tracksByGenre = tracksAll.filter((item) => 
+        item.genre.toLowerCase().includes(genr.toLowerCase()));
+        setFiltersByGenre(tracksByGenre);
+    }
+
+    function getSearchTracks (str) {
+       searchingTracks = tracksAll.filter((item) => 
+           item.name.toLowerCase().includes(str.toLowerCase())
+       );
+       console.log(searchingTracks);
+      setSearchTracks(searchingTracks);
+    }
+
+    function getTracksByData (year) {
+        console.log(year);
+        if(year === "new") {
+            tracksByData = structuredClone(tracksAll);
+            tracksByData.sort((a, b) => a.release_date > b.release_date ? -1 : 1);
+        }
+        if(year === "old") {
+            tracksByData = structuredClone(tracksAll);
+            tracksByData.sort((a, b) => a.release_date < b.release_date ? -1 : 1);
+        }
+        console.log(tracksByData);
+        setFilterByYear(tracksByData);
+    }
+
+    useEffect(() => {
+    if(!trackList) return
+    if(searchTracks) setTracks(searchTracks);
+    // if(filterByAuthor) setTracks(filterByAuthor);
+    if(searchTracks.length < 1 && filterByAuthor.length < 1) {
+        setTracks(tracksAll)
+    }
+ 
+ }, [isTracksSuccess, searchTracks]); 
+
+ useEffect(() => {
+    console.log(filterByAuthor);
+    if(filterByAuthor.length < 1) return
+    if(filterByAuthor.length >= 1) {
+        console.log(filterByAuthor);
+        setTracks(filterByAuthor)}
+    
+ 
+ }, [isTracksSuccess, filterByAuthor]); 
+
+ useEffect(() => {
+    if(!filterByYear) return
+    if(filterByYear.length > 1) setTracks(filterByYear)
+ }, [isTracksSuccess, filterByYear])
+
+ useEffect(() => {
+    if(!filterByGenre) return
+    if(filterByGenre.length >= 1) setTracks(filterByGenre)
+ }, [isTracksSuccess, filterByGenre])
+
+ 
+
+ console.log(tracks);
+ 
     return(
         <Styled.MainCenterblock style={{ backgroundColor: theme === "light" ? "#FFFFFF" : "#1C1C1C" }}>
-            <Search />
+            <Search searchTracks={getSearchTracks}/>
             <Title />
-            <Filter />
-            <CenterBlockContent />
+            <Filter data={tracks} getTracksByAuthor={getTracksByAuthor} getTracksByData={getTracksByData} getTracksByGenre={getTracksByGenre}/>
+
+            <CenterBlockContent tracks={tracks} />
+
+
         </Styled.MainCenterblock>
     )
 }
