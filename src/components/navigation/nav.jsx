@@ -65,13 +65,13 @@ function Menu() {
         <Styled.NavMenu>
             <Styled.MenuList>
                 <Styled.MenuItem>
-                    <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Главная</Styled.Link>
+                    <Styled.NavLink to='/' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Главная</Styled.NavLink>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
-                    <Styled.Link href="http://" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Мой треки</Styled.Link>
+                    <Styled.NavLink to="/favorites" style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Мой треки</Styled.NavLink>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
-                    <Styled.Link onClick={handleLogout} style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Выйти</Styled.Link>
+                    <Styled.NavLink onClick={handleLogout} style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>Выйти</Styled.NavLink>
                 </Styled.MenuItem>
                 <Styled.MenuItem>
                     <ThemeSwitcher />

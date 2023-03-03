@@ -1,7 +1,10 @@
 
 import { useState, useEffect, useContext} from 'react';
 import { useParams } from "react-router-dom";
-import { Search, ContentPlaylistTitle, SkeletonTrack, PlayListItem } from "../centerblock/centerblock";
+import { PlayListItem } from '../playlistItem/playlistItem';
+import { Search } from '../search/search';
+import { ContentPlaylistTitle } from '../playListTitle/playListTitle';
+import { SkeletonTrack } from '../skeletons/skeletonTrack';
 import  Navigation  from "../navigation/nav";
 import { ThemeContext } from '../../ThemeProvider';
 import Bar from "../bar/bar";
