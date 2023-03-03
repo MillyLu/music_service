@@ -1,7 +1,15 @@
-import { useState, useEffect, useRef, useContext} from 'react';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-param-reassign */
+import { useState, useEffect, useRef, useContext, useCallback} from 'react';
+import { useSelector } from 'react-redux';
 import { ThemeContext } from '../../ThemeProvider';
 import * as Styled from './styles';
 import { ReactComponent as StopSvg } from './stop.svg';
+
+import { selectTrack } from '../../store/trackSlice';
+import { useGetTrackByIdQuery } from '../../services/track';
 
 
 
@@ -10,47 +18,88 @@ import { ReactComponent as StopSvg } from './stop.svg';
 // -------------------Player__Controls----------------------//
 
 
-function BarContent() {
-    const [audio, turnAudio] = useState();
+function BarContent({setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}) {
 
-    const toggleAudio = () => turnAudio((isAudio) => !isAudio);
+    const [isPlaying, setPlaying] = useState(false);
 
-     const [currentTime, setCurrentTime] = useState(0);
-     const [maxValue, setMaxValue] = useState(0);
+     const [timeProgress, setTimeProgress ] = useState(0);
+     const [duration, setDuration] = useState(0);
+     const [volume, setVolume] = useState(60);
+     const [muteVolume, setMuteVolume] = useState(false);
+const [onPlay, setOnPlay] =useState('');
 
     const aud = useRef(null);
     const inputRef = useRef(null);
+console.log(timeProgress);
+// /////////////////////
+    const trackId = useSelector(selectTrack);
+
+    const { data } = useGetTrackByIdQuery(trackId, { skip: !trackId});
+useEffect(() => {
+    if(!data) return
+    setOnPlay(data);
+    console.log(onPlay);
+    setCurrentTrack(data.id);
+}, [data])
+
+
+    const playAnimationRef = useRef();
+
+    const repeat = useCallback(() => {
+      const currentTime = aud.current.currentTime;
+      setTimeProgress(currentTime);
+      inputRef.current.value = currentTime;
+      inputRef.current.style.setProperty(
+        '--range-progress',
+        `${(inputRef.current.value / duration) * 100}%`
+      );
+  
+      playAnimationRef.current = requestAnimationFrame(repeat);
+    }, [aud, duration, inputRef, setTimeProgress]);
+  
+    useEffect(() => {
+      if (isPlaying) {
+        aud.current.play();
+      } else {
+        aud.current.pause();
+      }
+      playAnimationRef.current = requestAnimationFrame(repeat);
+    }, [isPlaying, aud, repeat]);
+
+    useEffect(() => {
+        if (aud) {
+          aud.current.volume = volume / 100;
+          aud.current.muted = muteVolume;
+        }
+      }, [volume, aud, muteVolume]);
  
-
- const handleChange = () => {
-    //  eslint-disable-next-line prefer-destructuring
-     setCurrentTime(aud.current.currentTime);
-     setMaxValue(aud.current.duration);
-
-
-
+ const handlePause = () => {
+    aud.current.pause()
  }
 
- useEffect(() => {
-        
-    //  eslint-disable-next-line prefer-destructuring
-inputRef.current.value = currentTime;
-inputRef.current.max = maxValue;
-     }, [currentTime]);
+ const handlePlay = () => {
+    aud.current.play()
+ }
 
-return(
-    <Styled.BarContent>
-        <Styled.BarPlayerProgress>
-            <Styled.Progress ref={inputRef} value ={currentTime} max={maxValue}></Styled.Progress>
-        </Styled.BarPlayerProgress>
-        <Styled.BarPlayerBlock>
-            <Styled.BarPlayer>
-                <Styled.PlayerControls>
-                <ButtonPrevious />
-                <Styled.PlayerButtonPlay isSelected={audio} onClick={toggleAudio}>
+ const toggleAudio = () => {
+    if(isPlaying) handlePause()
+    if(!isPlaying) handlePlay()
+    setPlaying(!isPlaying)
+ }
+
+
+     const onLoadedMetadata = () => {
+        const seconds = aud.current.duration;
+        setDuration(seconds);
+        console.log(duration);
+        inputRef.current.max = seconds;
+      };
+
+      /* 
+        <Styled.PlayerButtonPlay isSelected={isPlaying} onClick={toggleAudio}>
                  <Styled.PlayerButtonPlaySvg >
                     {
-                        audio ? 
+                        isPlaying ? 
                         <StopSvg />
                             :
                         <use xlinkHref='img/icon/sprite.svg#icon-play' />
@@ -58,20 +107,28 @@ return(
                     }
                      
                  </Styled.PlayerButtonPlaySvg>
-                     {
-                         audio && (
-                         <Styled.Audio onTimeUpdate={handleChange}  ref={aud} src='Bobby_Marleni_-_Dropin.mp3' autoPlay></Styled.Audio>
-                         )
-                     }
+
+                 <Styled.Audio  onLoadedMetadata={onLoadedMetadata}  ref={aud} src={data ? data?.track_file : '' } onPlay={()=>setPlaying(true)} onPause={()=>{setPlaying(false)}} autoPlay></Styled.Audio>
+                         
+                     
             
-                </Styled.PlayerButtonPlay>
-                <ButtonNext />
+                </Styled.PlayerButtonPlay> */
+
+return(
+    <Styled.BarContent>
+        <BarProgress {...{ inputRef, aud }}/>
+        <Styled.BarPlayerBlock>
+            <Styled.BarPlayer>
+                <Styled.PlayerControls>
+                <ButtonPrevious {...{setIsPrev}}/>
+               < ButtonPlay {...{data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, nextTrack, prevTrack }}/> 
+                <ButtonNext {...{setIsNext}} />
                 <ButtonRepeat />
                 <ButtonShuffle />
                 </Styled.PlayerControls>
-                <PlayerTrackPlay />     
+                <PlayerTrackPlay onPlay={onPlay}/>     
             </Styled.BarPlayer>
-        <BarVolumeBlock />    
+        <BarVolumeBlock {...{setMuteVolume, volume, setVolume}}/>    
         </Styled.BarPlayerBlock>    
 
 
@@ -80,13 +137,34 @@ return(
 
 }
 
+function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, nextTrack, prevTrack }) {
 
-
-
-
-function ButtonPrevious(){
     return(
-        <Styled.PlayerButtonPrev>
+        <Styled.PlayerButtonPlay isSelected={isPlaying} onClick={toggleAudio}>
+                 <Styled.PlayerButtonPlaySvg >
+                    {
+                        isPlaying ? 
+                        <StopSvg />
+                            :
+                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
+                        
+                    }
+                     
+                 </Styled.PlayerButtonPlaySvg>
+
+                 <Styled.Audio  onLoadedMetadata={onLoadedMetadata}  ref={aud} src={nextTrack ? nextTrack?.track_file : (data ? data?.track_file : (prevTrack ? prevTrack?.track_file : '')) } onPlay={()=>setPlaying(true)} onPause={()=>{setPlaying(false)}} autoPlay></Styled.Audio>
+                         
+                     
+            
+                </Styled.PlayerButtonPlay> 
+    )
+}
+
+
+
+function ButtonPrevious({setIsPrev}){
+    return(
+        <Styled.PlayerButtonPrev onClick={() => setIsPrev(true)}>
             <Styled.PlayerButtonPrevSvg alt='prev'>
                 <use xlinkHref='img/icon/sprite.svg#icon-prev' />
             </Styled.PlayerButtonPrevSvg>
@@ -95,58 +173,14 @@ function ButtonPrevious(){
 }
 
 
-/*
-function ButtonPlay() {
 
-    const [audio, turnAudio] = useState();
+function ButtonNext({setIsNext}){
 
-    const toggleAudio = () => turnAudio((isAudio) => !isAudio);
-
-     const [currentTime, setCurrentTime] = useState(0);
-     const [maxValue, setMaxValue] = useState(0);
-
-    const aud = useRef(null);
-    const inputRef = useRef(null);
- 
-
- const handleChange = () => {
-    //  eslint-disable-next-line prefer-destructuring
-     setCurrentTime(aud.current.currentTime);
-     console.log(currentTime);
-     setMaxValue(aud.current.duration);
-     console.log(maxValue);
-
-
- }
-
- useEffect(() => {
-        
-    //  eslint-disable-next-line prefer-destructuring
-inputRef.current.value = currentTime;
-inputRef.current.max = maxValue;
-     }, [currentTime]);
-
-
-
+   /* function handleNext() {
+        setNext(true);
+    } */
     return(
-        <Styled.PlayerButtonPlay onClick={toggleAudio}>
-            <Styled.PlayerButtonPlaySvg>
-                <use xlinkHref='img/icon/sprite.svg#icon-play' />
-            </Styled.PlayerButtonPlaySvg>
-            {
-                audio && (
-                    <Styled.Audio onTimeUpdate={handleChange}  ref={aud} src='Bobby_Marleni_-_Dropin.mp3' autoPlay></Styled.Audio>
-                    )
-            }
-            <Progress ref={inputRef} value ={currentTime} max={maxValue} />
-        </Styled.PlayerButtonPlay>
-    )
-}
-
-*/
-function ButtonNext(){
-    return(
-        <Styled.PlayerButtonNext>
+        <Styled.PlayerButtonNext  onClick={() => setIsNext(true)}>
             <Styled.PlayerButtonNextSvg alt='next'>
                 <use xlinkHref='img/icon/sprite.svg#icon-next' />
             </Styled.PlayerButtonNextSvg>
@@ -201,20 +235,20 @@ function TrackPlayImage(){
     )
 }
 
-function TrackPlayAuthor(props){
+function TrackPlayAuthor({onPlay}){
     const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAuthor>
-            <Styled.TrackPlayLinkAuthor theme={theme} href={props.link}>{props.text}</Styled.TrackPlayLinkAuthor>
+            <Styled.TrackPlayLinkAuthor theme={theme} >{onPlay.author}</Styled.TrackPlayLinkAuthor>
         </Styled.TrackPlayAuthor>
     )
 }
 
-function TrackPlayAlbum(props){
+function TrackPlayAlbum({onPlay}){
     const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAlbum>
-            <Styled.TrackPlayLinkAlbum theme={theme} href={props.link}>{props.text}</Styled.TrackPlayLinkAlbum>
+            <Styled.TrackPlayLinkAlbum theme={theme} >{onPlay.album}</Styled.TrackPlayLinkAlbum>
         </Styled.TrackPlayAlbum>
     )
 }
@@ -243,17 +277,15 @@ function TrackPlaySkeletonAlbum(){
     )
 }
 
-function TrackPlayContain(){
-    const [skeleton, setSkeleton] = useState(false);
+function TrackPlayContain({onPlay}) {
+    console.log(onPlay);
+    const [skeleton, setSkeleton] = useState(true);
   
     useEffect(() => {
-        setSkeleton(true);
-        setTimeout(async () => {
+        if(!onPlay) return
+        setSkeleton(false);
 
-            setSkeleton(false);
-
-        }, 5000);
-    }, []);
+    }, [onPlay]); 
 
     return(
         <Styled.TrackPlayContain>
@@ -261,8 +293,8 @@ function TrackPlayContain(){
              (
             <>
             <TrackPlayImage />
-            <TrackPlayAuthor text='Ты та...'/>
-            <TrackPlayAlbum text='Баста'/>
+            <TrackPlayAuthor onPlay={onPlay}/>
+            <TrackPlayAlbum onPlay={onPlay}/>
             </>) :
             (
                 <>
@@ -307,11 +339,11 @@ function TrackPlayLikeDislike(){
     )
 }
 
-function PlayerTrackPlay(){
+function PlayerTrackPlay({data}){
     return(
         <Styled.TrackPlay>
-            <TrackPlayContain />
-            <TrackPlayLikeDislike />
+            <TrackPlayContain data={data} />
+            <TrackPlayLikeDislike  />
         </Styled.TrackPlay>
     )
 }
@@ -330,32 +362,54 @@ function BarPlayer(){
 */
 // ----------------------------Bar__Volume---------------------------//
 
-function VolumeImage() {
+function VolumeImage({setMuteVolume}) {
+
+    const muteVolume = () => setMuteVolume((prev) => !prev);
     return(
-        <Styled.VolumeImage>
-            <Styled.VolumeSvg alt='volume'>
+        <Styled.VolumeImage on>
+            <Styled.VolumeSvg onClick={muteVolume} alt='volume'>
                 <use xlinkHref='img/icon/sprite.svg#icon-volume' />
             </Styled.VolumeSvg>
         </Styled.VolumeImage>
     )
 }
 
-function VolumeProgress(){
+function VolumeProgress({volume, setVolume}){
     return(
         <Styled.VolumeProgress>
-            <Styled.VolumeProgressLine name='range' />
+            <Styled.VolumeProgressLine value={volume} name='range' min={0} max={100} onChange={(e) => setVolume(e.target.value)} />
         </Styled.VolumeProgress>
     )
 }
 
-function BarVolumeBlock() {
+function BarVolumeBlock({setMuteVolume, volume, setVolume}) {
     return(
         <Styled.BarVolumeBlock>
             <Styled.VolumeContent>
-                <VolumeImage />
-                <VolumeProgress />
+                <VolumeImage setMuteVolume={setMuteVolume}/>
+                <VolumeProgress volume={volume} setVolume={setVolume}/>
             </Styled.VolumeContent>
         </Styled.BarVolumeBlock>
+    )
+}
+
+function BarProgress({
+    inputRef,
+    aud
+
+  }) {
+
+    const handleProgressChange = () => {
+        aud.current.currentTime = inputRef.current.value;
+      };
+
+
+    return (
+        <Styled.BarPlayerProgress>
+             
+              <Styled.Progress type="range" defaultValue='0' ref={inputRef} onChange={handleProgressChange}></Styled.Progress>
+
+        </Styled.BarPlayerProgress>
     )
 }
 
@@ -380,11 +434,11 @@ function BarContent() {
 }
 */
 
-function Bar() {
+function Bar({setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}) {
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.Bar theme={theme}>
-            <BarContent />
+            <BarContent {...{setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}}/>
         </Styled.Bar>
     )
 }

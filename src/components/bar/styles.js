@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Bar = styled.div`
-position: absolute;
+position: fixed;
 bottom: 0;
 left: 0;
 width: 100%;
@@ -24,7 +24,13 @@ height: 5px;
 background: #2E2E2E;
 `;
 
-export const Progress = styled.progress`
+/* export const Progress = styled.progress`
+width: 100%;
+height: 5px;
+vertical-align: top;
+` */
+
+export const Progress = styled.input`
 width: 100%;
 height: 5px;
 vertical-align: top;

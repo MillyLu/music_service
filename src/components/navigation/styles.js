@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import {Link} from "react-router-dom";
 
 export const MainNav = styled.nav`
 width: 244px;
@@ -71,7 +71,7 @@ padding: 5px 0;
 margin-bottom: 16px;
 `;
 
-export const Link = styled.a`
+export const NavLink = styled(Link)`
 color: #FFFFFF;
 font-weight: 400;
 font-size: 16px;
