@@ -2,20 +2,16 @@
 import * as Styled from './styles';
 
 
-import Bar from '../bar/bar';
+// import Bar from '../bar/bar';
 import MainCenterBlock from '../centerblock/centerblock';
 import MainSideBar from '../sidebar/sidebar';
 import Navigation from '../navigation/nav';
+import { Footer } from '../footer/footer';
 
 
 
 
 
-function Footer() {
-    return(
-        <footer className='footer' />
-    )
-}
 
 function Main() {
     return(
@@ -31,7 +27,7 @@ export function Container() {
     return(
         <Styled.Container>
             <Main />
-            <Bar />
+
             <Footer />
         </Styled.Container>
     )

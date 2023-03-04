@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const MainSidebar = styled.div`
 max-width: 418px;
-padding: 20px 90px 20px 78px;
+padding: 20px 40px 20px 20px;
 background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"};
 `;
 

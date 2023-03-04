@@ -45,6 +45,10 @@ border-color: #D0CECE;
 margin-bottom: 25px;
 `;
 
+export const StartscreenInputNoMargin = styled(StartscreenInput)`
+margin-bottom: 0px;
+`
+
 export const StartscreenButton = styled.button`
 width: 278px;
 height: 52px;
@@ -92,5 +96,17 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color: #000000D9;
+`;
+
+export const PasswordHelp = styled.p`
+width: 278px;
+text-align: center;
+font-family: 'StratosSkyeng',sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 18px;
+letter-spacing: -0.003em;
+color: black;
 `
 
