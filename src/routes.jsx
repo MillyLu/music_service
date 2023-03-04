@@ -9,6 +9,7 @@ import { Indi } from "./components/pages/indi";
 import  { Hits } from "./components/pages/100hits";
 import { FavoritesPage } from "./components/pages/favorites";
 import { ProtectedRoute } from "./components/protected-route/protected-route";
+import { NotFound } from "./components/pages/notfound";
 
 
 
@@ -24,10 +25,11 @@ export function AppRoutes ({ user })  {
         element={
           <ProtectedRoute isAllowed={Boolean(user)} />} >
             <Route path="/" element={<MainPage />} />
-            <Route path="/playlist/:id" element={<Playlist />} />
-            <Route path="/indi/:id" element={<Indi />} />
-            <Route path="/hits/:id" element={<Hits />} />
+            <Route path="/playlist/1" element={<Playlist />} />
+            <Route path="/indi/1" element={<Indi />} />
+            <Route path="/hits/1" element={<Hits />} />
             <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="*" element={<NotFound />} />
         </Route>
         
       

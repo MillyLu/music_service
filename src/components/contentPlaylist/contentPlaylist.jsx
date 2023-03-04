@@ -5,19 +5,19 @@ import * as Styled from './styles';
 import { PlayListItem } from '../playlistItem/playlistItem';
 
 import { useAddFavoritesMutation, useDeleteFavoritesMutation, useGetFavoritesQuery } from '../../services/favorites';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectTrack, setTrack } from '../../store/trackSlice';
-import { useGetTrackByIdQuery } from '../../services/track';
+import { useDispatch, } from 'react-redux';
+import { setTrack } from '../../store/trackSlice';
+// import { useGetTrackByIdQuery } from '../../services/track';
 
 
 export function ContentPlaylistPlaylist(props) {
 
   const dispatch = useDispatch();
-  const trackId = useSelector(selectTrack);
+ //  const trackId = useSelector(selectTrack);
 
-  const [skip, setSkip] = useState(trackId ? false : true);
-  const { dataTrack } = useGetTrackByIdQuery(trackId, { skip });
-  console.log(dataTrack);
+ // const [skip, setSkip] = useState(trackId ? false : true);
+  // const { dataTrack } = useGetTrackByIdQuery(trackId, { skip });
+  // console.log(dataTrack);
 
     const {data: favorites} = useGetFavoritesQuery();  
     const [addFavorites] = useAddFavoritesMutation();
@@ -40,8 +40,9 @@ export function ContentPlaylistPlaylist(props) {
 
 const handleLoadTrack = (id) => {
   dispatch(setTrack(id));
-  props.setCurrentTrack(id)
-  setSkip(false);
+  props.setOPenBar(true);
+//  props.setCurrentTrack(id)
+  // setSkip(false);
 }
 
 console.log(props.tracks);

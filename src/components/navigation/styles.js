@@ -2,9 +2,9 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 export const MainNav = styled.nav`
-width: 244px;
+max-width: 244px;
   background-color: #181818;
-  padding: 20px 0 20px 36px;
+  padding: 20px 20px 20px 36px;
 `;
 
 export const MainCenterBlock = styled.div`

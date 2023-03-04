@@ -1,5 +1,16 @@
 import styled from "styled-components";
 
+
+ import {ReactComponent as DislikeSvg} from '../svg/dislike/dislike.svg';
+ import {ReactComponent as LikeSvg} from '../svg/like/like.svg';
+ import {ReactComponent as NextSvg} from '../svg/next/next.svg';
+ import {ReactComponent as NoteSvg} from '../svg/note/note.svg';
+ import {ReactComponent as PrevSvg} from '../svg/prev/prev.svg';
+  import {ReactComponent as RepeatSvg} from '../svg/repeat/repeat.svg';
+  import {ReactComponent as ShuffleSvg} from '../svg/shuffle/shuffle.svg';
+ import {ReactComponent as VolumerSvg} from '../svg/volume/volume.svg';
+
+
 export const Bar = styled.div`
 position: fixed;
 bottom: 0;
@@ -23,12 +34,6 @@ width: 100%;
 height: 5px;
 background: #2E2E2E;
 `;
-
-/* export const Progress = styled.progress`
-width: 100%;
-height: 5px;
-vertical-align: top;
-` */
 
 export const Progress = styled.input`
 width: 100%;
@@ -103,9 +108,13 @@ export const PlayerButtonPrev = styled(PlayerButton)`
 margin-right: 23px;
 `;
 
-export const PlayerButtonPrevSvg = styled.svg`
+export const PlayerButtonPrevSvg = styled(PrevSvg)`
 width: 15px;
 height: 14px;
+fill: ${props => props.theme === "light" ? "#B1B1B1" : "#D9D9D9"};
+ & :hover {
+    fill: ${props => props.theme === "light" ? "#707070" : "#696969"};
+ }
 `;
 
 export const PlayerButtonPlay = styled(ButtonCursor)`
@@ -115,7 +124,10 @@ margin-right: 23px;
 export const PlayerButtonPlaySvg = styled.svg`
 width: 22px;
   height: 20px;
-  fill: #D9D9D9;
+  fill: ${props => props.theme === "light" ? "#B1B1B1" : "#D9D9D9"};
+  & :hover {
+     fill: ${props => props.theme === "light" ? "#707070" : "#696969"};
+  }
 `;
 
 export const PlayerButtonNext = styled(PlayerButton)`
@@ -123,11 +135,13 @@ margin-right: 28px;
 fill: #a53939;
 `;
 
-export const PlayerButtonNextSvg = styled.svg`
+export const PlayerButtonNextSvg = styled(NextSvg)`
 width: 15px;
 height: 14px;
-fill: inherit;
-stroke: #D9D9D9;
+fill: ${props => props.theme === "light" ? "#B1B1B1" : "#D9D9D9"};
+ & :hover {
+    fill: ${props => props.theme === "light" ? "#707070" : "#696969"};
+ }
 `;
 
 export const PlayerButtonIcon = styled(PlayerButton)``;
@@ -136,19 +150,20 @@ export const PlayerButtonRepeat = styled(PlayerButtonIcon)`
 margin-right: 24px;
 `;
 
-export const PlayerButtonRepeatSvg = styled.svg`
+export const PlayerButtonRepeatSvg = styled(RepeatSvg)`
 width: 18px;
 height: 12px;
-fill: transparent;
-stroke: #696969;
+fill: none;
+stroke: ${props => props.theme === "light" ? "#B1B1B1" : "#696969"};
+
 ${PlayerButtonRepeat}:hover & {
-    fill: transparent;
-    stroke: #ACACAC;
+    fill: none;
+    stroke: ${props => props.theme === "light" ? "#707070" : "#ACACAC"};
     cursor: pointer;
   }
 ${PlayerButtonRepeat}:active & {
-    fill: transparent;
-    stroke: #FFFFFF;
+    fill: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
+    stroke: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
     cursor: pointer;
   }
 `;
@@ -162,19 +177,19 @@ display: flex;
         align-items: center;
 `;
 
-export const PlayerButtonShuffleSvg = styled.svg`
+export const PlayerButtonShuffleSvg = styled(ShuffleSvg)`
 width: 19px;
 height: 12px;
-fill: transparent;
-stroke: #696969;
+fill: none;
+stroke: ${props => props.theme === "light" ? "#B1B1B1" : "#696969"};
 ${PlayerButtonShuffle}:hover & {
-    fill: transparent;
-    stroke: #ACACAC;
+    fill: none;
+    stroke: ${props => props.theme === "light" ? "#707070" : "#ACACAC"};
     cursor: pointer;
   }
 ${PlayerButtonShuffle}:active & {
-    fill: transparent;
-    stroke: #FFFFFF;
+    fill: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
+    stroke: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
     cursor: pointer;
   }
 `;
@@ -222,7 +237,7 @@ margin-right: 12px;
 grid-area: image;
 `;
 
-export const TrackPlaySvg = styled.svg`
+export const TrackPlaySvg = styled(NoteSvg)`
 width: 18px;
 height: 17px;
 fill: transparent;
@@ -279,29 +294,32 @@ export const TrackPlayDislike = styled(TrackPlayLike)`
 margin-left: 28.5px;
 `;
 
-export const TrackPlayLikeSvg = styled.svg`
+export const TrackPlayLikeSvg = styled(LikeSvg)`
 width: 14px;
 height: 12px;
 fill: transparent;
 stroke: #696969;
-${TrackPlayLike}:hover & {
-    fill: ${props => props.theme === "light" ? "transparent" :  "transparent"};
-    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};;
+
+&:hover, &:focus  {
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"}; 
+    scale: 1.05;
     cursor: pointer;
   }
 ${TrackPlayLike}:active & {
     fill: ${props => props.theme === "light" ? "#AD61FF" :  "#696969"};
-    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#FFFFFF"};
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};
     cursor: pointer;
   }
 `;
 
-export const TrackPlayDislikeSvg = styled(TrackPlayLikeSvg)`
+export const TrackPlayDislikeSvg = styled(DislikeSvg)`
 width: 14.34px;
 height: 13px;
+fill: transparent;
+stroke: #696969;
 ${TrackPlayDislike}:hover & {
     fill: ${props => props.theme === "light" ? "transparent" :  "transparent"};
-    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};;
+    stroke: ${props => props.theme === "light" ? "#AD61FF" :  "#ACACAC"};
     cursor: pointer;
   }
 ${TrackPlayDislike}:active & {
@@ -333,10 +351,11 @@ height: 18px;
 margin-right: 17px;
 `;
 
-export const VolumeSvg = styled.svg`
+export const VolumeSvg = styled(VolumerSvg)`
 width: 13px;
 height: 18px;
 fill: transparent;
+stroke: ${props => props.theme === "light" ? "#B1B1B1" :  "#FFFFFF"};
 `;
 
 export const VolumeProgress = styled.div`

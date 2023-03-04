@@ -6,11 +6,9 @@
 
 
 import { useState, useEffect, useContext } from 'react';
- import { useDispatch, useSelector } from 'react-redux';
 import * as Styled from './styles';
 import { ThemeContext } from '../../ThemeProvider';
-import { useGetAllTracksQuery, useGetTrackByIdQuery } from '../../services/track';
- import { setTrack, selectTrack } from '../../store/trackSlice';
+import { useGetAllTracksQuery} from '../../services/track';
 import { Search } from '../search/search';
 import { Title } from '../title/title';
 import { Filter } from '../filters/filters';
@@ -37,7 +35,8 @@ function MainCenterBlock() {
     const [filterByAuthor, setFilterByAuthor] = useState([]); // трек-лист фильтрации по автору
     const [filterByYear, setFilterByYear] = useState([]); // трек-лист для фильтрации по году
     const [filterByGenre, setFiltersByGenre] = useState([]); // трек-лист для фильтрации по жанру
-
+    const [shuffleTracks, setShuffleTracks] = useState([]);
+    const [openBar, setOPenBar] = useState(false);
 
 
 
@@ -49,58 +48,12 @@ function MainCenterBlock() {
 
 // /////////////////
 
-const [currentTrack, setCurrentTrack] = useState(null);
- const [nextTrack, setNextTrack ] = useState(null);
-const [isNext, setIsNext] = useState(false);
-const trackId = useSelector(selectTrack);
-
-const [prevTrack, setPrevTrack] = useState(null);
-const [isPrev, setIsPrev] = useState(false);
-
-const [skip, setSkip] = useState(trackId ? false : true);
-const { dataTrack } = useGetTrackByIdQuery(trackId, { skip });
-// const [skip, setSkip] = useState(nextTrack ? false : true);
- const dispatch = useDispatch();
-function findNextTrack() {
-    console.log(currentTrack);
-    const nextIndex = ((tracks.findIndex(el => el.id === currentTrack)) + 1 ) // % tracks.length
-    console.log(nextIndex);
-setNextTrack(tracks[nextIndex]);
-   dispatch(setTrack(nextIndex))
-       setIsNext(false);
-       setSkip(false);
-       console.log(dataTrack);
-}
-
-function findPrevTrack() {
-    const prevIndex = ((tracks.findIndex(el => el.id === currentTrack)) - 1)
-    if (prevIndex >= 0) {
-        setPrevTrack(tracks[prevIndex]);
-        dispatch(setTracks(prevIndex))
-        setIsPrev(false);
-        setSkip(false);
-}
-}
-
-useEffect(() => {
-    findPrevTrack();
-}, [isPrev])
-
-const handleLoadTrack = () => {
-    findNextTrack();
-  }
-
-useEffect(() => {
-    handleLoadTrack()
-    console.log(isNext);
-}, [isNext])
-
-
 // //////////////////////////////////
     let searchingTracks;
     let tracksByAuthor;
     let tracksByData;
     let tracksByGenre;
+    let shuffle;
 
     if(error) console.log(error.message);
 
@@ -138,6 +91,15 @@ useEffect(() => {
         setFilterByYear(tracksByData);
     }
 
+    function getShuffleTracks () {
+        shuffle = structuredClone(tracksAll);
+        shuffle.sort(() => Math.random() - 0.5);
+        console.log(shuffle);
+        setShuffleTracks(shuffle)
+    }
+
+ 
+
 
 
    
@@ -166,6 +128,11 @@ useEffect(() => {
     if(filterByGenre.length >= 1) setTracks(filterByGenre)
  }, [isTracksSuccess, filterByGenre])
 
+ /* useEffect(() => {
+    if(shuffleTracks.length < 1) return
+    if(shuffleTracks.length > 1) setTracks(shuffleTracks)
+}, [isTracksSuccess, shuffleTracks]) */
+
 
 
  console.log(tracks);
@@ -183,11 +150,12 @@ useEffect(() => {
             {isTracksLoading && (
               [...new Array(20).keys()].map((key) => <SkeletonTrack key={key} />) ) }
              {(tracks.length > 1 || tracks.length === 1) && ( 
-              <ContentPlaylistPlaylist tracks={tracks} setCurrentTrack={setCurrentTrack}/>)}
+              <ContentPlaylistPlaylist tracks={tracks} setOPenBar={setOPenBar}/>)}
              
             
             </Styled.CenterblockContent>
-           <Bar setIsNext={setIsNext} setIsPrev={setIsPrev}setCurrentTrack={setCurrentTrack} nextTrack={nextTrack ? nextTrack : ''}  prevTrack={prevTrack ? prevTrack : ''}/>
+            {(openBar === true) && (tracks.length > 1 || tracks.length === 1) && ( 
+              <Bar tracks={shuffleTracks.length > 1 ? shuffleTracks : tracks} getShuffleTracks={getShuffleTracks}/>)}
 
         </Styled.MainCenterblock>
     )

@@ -10,30 +10,25 @@ export function PlayListItem({id, author, album, time, title, subtitle, item, ha
                 <Styled.TrackTitle>
                     <Styled.TrackTitleImage style={{ backgroundColor: theme === "light" ? "#F6F4F4" : "#313131" }}>
                         <Styled.TrackTitleSvg alt='music' >
-
-
-                                <use xlinkHref='img/icon/sprite.svg#icon-note' />
-
                             
                         </Styled.TrackTitleSvg>
                     </Styled.TrackTitleImage>
                     <Styled.TrackTitleText>
-                        <Styled.TrackTitleLink href='http://' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{title}<Styled.TrackTitleSpan>{subtitle}</Styled.TrackTitleSpan></Styled.TrackTitleLink>
+                        <Styled.TrackTitleLink onClick={() => onFetchTrack(id)} href='#' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{title}<Styled.TrackTitleSpan>{subtitle}</Styled.TrackTitleSpan></Styled.TrackTitleLink>
                        
                     </Styled.TrackTitleText>
                 </Styled.TrackTitle>
                 <Styled.TrackAuthor>
-                    <Styled.TrackAuthorLink href='http://' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{author}</Styled.TrackAuthorLink>
+                    <Styled.TrackAuthorLink href='#' style={{ color: theme === "light" ? "#000000" : "#FFFFFF" }}>{author}</Styled.TrackAuthorLink>
                 </Styled.TrackAuthor>
                 <Styled.TrackAlbum>
-                    <Styled.TrackAlbumLink href='http://'>{album}</Styled.TrackAlbumLink>
+                    <Styled.TrackAlbumLink href='#'>{album}</Styled.TrackAlbumLink>
                 </Styled.TrackAlbum>
                 <Styled.TrackTime>
-                    <Styled.TrackTimeSvg alt='time' onClick={(event) => {
+                    <Styled.TrackTimeSvg theme={theme} alt='time' onClick={(event) => {
           handleChangeOfFavorites(item)
           event.stopPropagation()
         }}>
-                        <use xlinkHref="img/icon/sprite.svg#icon-like" />
                     </Styled.TrackTimeSvg>
                     <Styled.TrackTimeText>{time}</Styled.TrackTimeText> 
                 </Styled.TrackTime>
