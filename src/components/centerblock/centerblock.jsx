@@ -12,7 +12,7 @@ import { useGetAllTracksQuery} from '../../services/track';
 import { Search } from '../search/search';
 import { Title } from '../title/title';
 import { Filter } from '../filters/filters';
-import { SkeletonTrack } from '../skeletons/skeletonTrack';
+import { SkeletonMainTrack } from '../skeletonsMain/skeletonsMain';
 // import { CenterBlockContent } from '../center/centerBlock';
 // import { SkeletonTrack } from '../skeletons/skeletonTrack';
 // import { Content } from '../contentTracks/contentTracks';
@@ -142,13 +142,13 @@ function MainCenterBlock() {
     return(
         <Styled.MainCenterblock style={{ backgroundColor: theme === "light" ? "#FFFFFF" : "#1C1C1C" }}>
             <Search searchTracks={getSearchTracks}/>
-            <Title />
+            <Title >Треки</Title>
             <Filter data={tracks} getTracksByAuthor={getTracksByAuthor} getTracksByData={getTracksByData} getTracksByGenre={getTracksByGenre}/>
 
             <Styled.CenterblockContent>
             <ContentPlaylistTitle />
             {isTracksLoading && (
-              [...new Array(20).keys()].map((key) => <SkeletonTrack key={key} />) ) }
+              [...new Array(20).keys()].map((key) => <SkeletonMainTrack key={key} />) ) }
              {(tracks.length > 1 || tracks.length === 1) && ( 
               <ContentPlaylistPlaylist tracks={tracks} setOPenBar={setOPenBar}/>)}
              

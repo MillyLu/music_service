@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LogoImage, NavLogo } from "../navigation/styles"; 
 
 export const StartscreenRegister = styled.div`
 width: 366px;
@@ -11,6 +10,21 @@ align-items: center;
 background-color: #FFFFFF;
 border-radius: 12px;
 `;
+
+const NavLogo = styled.div`
+width: 113.33px;
+  height: 43px;
+  padding: 13px 0 13px 0;
+  background-color: transparent;
+  margin-bottom: 20px;
+`;
+
+export const LogoImage = styled.img`
+width: 113.33px;
+height: 17px;
+color: #181818;
+`;
+
 
 export const StartscreenDivLogo = styled(NavLogo)`
 width: 140px;

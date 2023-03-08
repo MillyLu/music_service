@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VolumeImage/> should render successfully and match snapshot 1`] = `
+<VolumeImage>
+  album
+</VolumeImage>
+`;

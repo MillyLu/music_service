@@ -1,7 +1,8 @@
 import { Search } from "../search/search";
 import Bar from "../bar/bar";
 import Navigation from "../navigation/nav";
-import * as Styled from './styles'
+import * as Styled from './styles';
+import crying from '../svg/smile/crying.png'
 
 export function NotFoundCenterBlock() {
 
@@ -18,6 +19,7 @@ export function NotFoundCenterBlock() {
                     <Styled.NotFoundTitle>404</Styled.NotFoundTitle>
                     <Styled.NotFoundGroup>
                         <Styled.NotFoundSubtitle>Страница не найдена </Styled.NotFoundSubtitle>
+                        <Styled.Image src={crying} alt=":(" />
 
                     </Styled.NotFoundGroup>
                     <Styled.NotFoundText>Возможно она была удалена или перенесена на другой адрес</Styled.NotFoundText>

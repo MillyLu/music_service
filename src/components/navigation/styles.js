@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 export const MainNav = styled.nav`
 max-width: 244px;
@@ -7,7 +7,7 @@ max-width: 244px;
   padding: 20px 20px 20px 36px;
 `;
 
-export const MainCenterBlock = styled.div`
+/* export const MainCenterBlock = styled.div`
 width: auto;
 -webkit-box-flex: 3;
     -ms-flex-positive: 3;
@@ -18,7 +18,7 @@ padding: 20px 40px 20px 111px;
 export const MainSideBar = styled.div`
 max-width: 418px;
 padding: 20px 90px 20px 78px;
-`;
+`; */
 
 export const NavLogo = styled.div`
 width: 113.33px;
@@ -44,9 +44,11 @@ display: flex;
         justify-content: space-between;
 `;
 
-export const NavMenu = styled.div`
-display: block;
-visibility: visible;
+export const BurgerLine = styled.span`
+display: inline-block;
+width: 100%;
+height: 1px;
+background-color: #D3D3D3;
 `;
 
 export const LogoImage = styled.img`
@@ -55,12 +57,14 @@ height: 17px;
 color: #181818;
 `;
 
-export const BurgerLine = styled.span`
-display: inline-block;
-width: 100%;
-height: 1px;
-background-color: #D3D3D3;
+/* export const NavMenu = styled.div`
+display: block;
+visibility: visible;
 `;
+
+
+
+
 
 export const MenuList = styled.ul`
 padding: 18px 0 10px 0;
@@ -97,7 +101,7 @@ export const ThemeButtonSvg = styled.svg`
 width: 36px;
   height: 36px;
   fill: #FFFFFF;
-`;
+`; */
 
 
 

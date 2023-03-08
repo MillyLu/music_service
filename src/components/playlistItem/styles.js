@@ -38,7 +38,7 @@ max-width: 447px;
 
 export const TrackTitleImage = styled.div`
 width: 51px;
-height: 51px;
+height: 51px; 
 padding: 16px;
 background: #313131;
 display: flex;

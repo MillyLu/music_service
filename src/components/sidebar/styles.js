@@ -31,12 +31,6 @@ color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
 margin-right: 16px;
 `;
 
-export const SidebarAvatar = styled.div`
-width: 43px;
-height: 43px;
-background-color: #313131;
-border-radius: 50%;
-`;
 
 export const SidebarList = styled.div`
 display: flex;
