@@ -5,7 +5,12 @@ export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "https://painassasin.online/user",
-    }),
+         prepareHeaders: (headers, { getState }) => {
+            if(getState().auth.access != null) {const {tok} = getState().auth.access;
+            if(tok) {headers.set('authorization', `Bearer ${tok}`)};                  
+        }
+            return headers} 
+    }),      
 
     endpoints: (builder) => ({
         signupUser: builder.mutation({
@@ -31,6 +36,7 @@ export const userApi = createApi({
         }),
         refreshUserToken: builder.mutation({
             query: (body) => ({
+
                 url: "token/refresh/",
                 method: "POST",
                 body,
@@ -40,3 +46,4 @@ export const userApi = createApi({
 });
 
 export const {useSignupUserMutation, useLoginUserMutation, useGetUserTokenMutation, useRefreshUserTokenMutation } = userApi;
+
