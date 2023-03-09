@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VolumeProgress /> Snapshots tests should render successfully and match snapshot 1`] = `
+<div>
+  <div
+    class="sc-bcXHqe hBgvgi"
+  >
+    <input
+      class="sc-gswNZR izocci"
+      data-testid="progress"
+      max="100"
+      min="0"
+      name="range"
+      type="range"
+      value=""
+    />
+  </div>
+</div>
+`;

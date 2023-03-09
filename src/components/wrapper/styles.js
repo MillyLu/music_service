@@ -23,8 +23,9 @@ export const Main = styled.div`
 display: -webkit-box;
 display: -ms-flexbox;
 display: flex;
--ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+
+-ms-flex-wrap: no-wrap;
+    flex-wrap: no-wrap;
 -webkit-box-pack: justify;
     -ms-flex-pack: justify;
         justify-content: space-between;

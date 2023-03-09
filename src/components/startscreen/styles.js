@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { LogoImage, NavLogo } from "../navigation/styles"; 
 
 export const StartscreenRegister = styled.div`
 width: 366px;
@@ -11,6 +10,21 @@ align-items: center;
 background-color: #FFFFFF;
 border-radius: 12px;
 `;
+
+const NavLogo = styled.div`
+width: 113.33px;
+  height: 43px;
+  padding: 13px 0 13px 0;
+  background-color: transparent;
+  margin-bottom: 20px;
+`;
+
+export const LogoImage = styled.img`
+width: 113.33px;
+height: 17px;
+color: #181818;
+`;
+
 
 export const StartscreenDivLogo = styled(NavLogo)`
 width: 140px;
@@ -44,6 +58,10 @@ border-width: 0 0 1px 0;
 border-color: #D0CECE;
 margin-bottom: 25px;
 `;
+
+export const StartscreenInputNoMargin = styled(StartscreenInput)`
+margin-bottom: 0px;
+`
 
 export const StartscreenButton = styled.button`
 width: 278px;
@@ -92,5 +110,17 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color: #000000D9;
+`;
+
+export const PasswordHelp = styled.p`
+width: 278px;
+text-align: center;
+font-family: 'StratosSkyeng',sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 18px;
+letter-spacing: -0.003em;
+color: black;
 `
 
