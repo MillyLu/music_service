@@ -43,8 +43,8 @@ function MainCenterBlock() {
     const { data: tracksAll =[], isSuccess: isTracksSuccess, isLoading: isTracksLoading, error } = useGetAllTracksQuery();
 
     console.log(tracksAll);
-    const trackList = structuredClone(tracksAll);
-    console.log(trackList);
+   // const trackList = structuredClone(tracksAll);
+  //  console.log(trackList);
 
 // /////////////////
 
@@ -104,7 +104,7 @@ function MainCenterBlock() {
 
    
     useEffect(() => {
-    if(!trackList) return
+    if(!tracksAll) return    // trackList !!
     if(searchTracks) setTracks(searchTracks);
     // if(filterByAuthor) setTracks(filterByAuthor);
     if(searchTracks.length < 1 && filterByAuthor.length < 1 && filterByAuthor.length < 1 && filterByYear.length < 1 && filterByGenre.length < 1) {

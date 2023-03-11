@@ -8,7 +8,7 @@ export function Logo() {
     const { theme} = useContext(ThemeContext);
     return (
     <Styled.NavLogo>
-        <Styled.LogoImage src={theme === "dark"? logo : logoLight} alt="logo" />
+        <Styled.LogoImage data-testid="logo" src={theme === "dark"? logo : logoLight} alt="logo" />
     </Styled.NavLogo>
     );
 }
