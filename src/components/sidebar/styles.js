@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const MainSidebar = styled.div`
 max-width: 418px;
-padding: 20px 90px 20px 78px;
+padding: 20px 40px 20px 20px;
 background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#1C1C1C"};
 `;
 
@@ -31,12 +31,6 @@ color: ${props => props.theme === "light" ? "#000000" : "#FFFFFF"};
 margin-right: 16px;
 `;
 
-export const SidebarAvatar = styled.div`
-width: 43px;
-height: 43px;
-background-color: #313131;
-border-radius: 50%;
-`;
 
 export const SidebarList = styled.div`
 display: flex;
