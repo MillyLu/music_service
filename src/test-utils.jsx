@@ -8,6 +8,10 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import {
   ThemeContext,
 } from "./ThemeProvider";
+import { favoritesApi} from './services/favorites';
+import { trackApi} from './services/track';
+
+
 
 // eslint-disable-next-line react/function-component-definition
 const AllProviders = ({ children }) => {
@@ -43,7 +47,7 @@ export function withStoreProvider(store) {
  * Функция для мока api
  
  */
-export const setupApiStore = (api, extraReducers, withoutListeners) => {
+/* export const setupApiStore = (api, extraReducers, withoutListeners) => {
   const getStore = () =>
     configureStore({
       reducer: { [api.reducerPath]: api.reducer, ...extraReducers },
@@ -52,7 +56,7 @@ export const setupApiStore = (api, extraReducers, withoutListeners) => {
           api.middleware
         ),
     });
-
+  
   const initialStore = getStore();
   const refObj = {
     api,
@@ -83,7 +87,51 @@ export const setupApiStore = (api, extraReducers, withoutListeners) => {
   });
 
   return refObj;
+}; */
+
+export const setupApiStoreTwo = (api, extraReducers, withoutListeners) => {
+  const getStore = () =>
+    configureStore({
+      reducer: { [trackApi.reducerPath]: trackApi.reducer,
+        [favoritesApi.reducerPath]: favoritesApi.reducer,
+         ...extraReducers },
+      middleware: (gdm) =>
+        gdm({ serializableCheck: false, immutableCheck: false }).concat(
+          trackApi.middleware
+        ).concat(favoritesApi.middleware),
+    });
+    const initialStore = getStore();
+  const refObj = {
+    api,
+    store: initialStore,
+    wrapper: withStoreProvider(initialStore),
+  };
+
+  let cleanupListeners;
+
+  beforeEach(() => {
+    const store = getStore();
+    refObj.store = store;
+    refObj.wrapper = withStoreProvider(store);
+
+    if (!withoutListeners) {
+      cleanupListeners = setupListeners(store.dispatch);
+    }
+  });
+
+  afterEach(() => {
+    cleanup();
+
+    if (!withoutListeners) {
+      cleanupListeners();
+    }
+
+    refObj.store.dispatch(trackApi.util.resetApiState());
+  });
+
+  return refObj;
 };
+
 
 
 export const customRender = (ui, options) =>

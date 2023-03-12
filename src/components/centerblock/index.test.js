@@ -4,14 +4,13 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { render, screen } from "@testing-library/react";
 import { nanoid } from '@reduxjs/toolkit'
-import { setupApiStore } from "../../test-utils";
+ import { setupApiStoreTwo } from "../../test-utils";
 
 
 import MainCenterBlock from "./centerblock";
 
 
-import { trackApi } from "../../services/track";
-import { favoritesApi } from "../../services/favorites";
+
 
 const token = nanoid();
 // Описываем endpoint-ы, которые хотим замокировать
@@ -65,7 +64,10 @@ export const handlers = [
 const server = setupServer(...handlers);
 
 // Мокируем api store
-const storeRef = setupApiStore({trackApi, favoritesApi});
+
+
+
+const storeRef = setupApiStoreTwo();
 
 describe("tracks", () => {
   // Поднимаем тестовый сервер перед запуском тестов
@@ -136,7 +138,7 @@ describe("tracks", () => {
 
     // Ждем ответа от сервера. Как только он придет,
     // отрисуется пункт списка
-    expect(await screen.findByText('Chase')).toBeInTheDocument();
+    expect(await screen.findByText('Alexander Nakarada')).toBeInTheDocument();
    
   });
 });
