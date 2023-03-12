@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TrackPlayImage/> should render successfully and match snapshot 1`] = `
+<styled.div
+  theme={0}
+>
+  <Styled(Component) />
+</styled.div>
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Bar /> should render successfully and match snapshot 1`] = `
+<Styled(styled.div)>
+  <Styled(Component)
+    alt="next"
+  />
+</Styled(styled.div)>
+`;

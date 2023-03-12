@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TrackPlayDislike/> should render successfully and match snapshot 1`] = `
+<Styled(styled.div)>
+  <Styled(Component)
+    alt="dislike"
+    theme={0}
+  />
+</Styled(styled.div)>
+`;
