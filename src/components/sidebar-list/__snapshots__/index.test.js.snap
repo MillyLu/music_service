@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SidebarList/> should render successfully and match snapshot 1`] = `
+<styled.div>
+  <React.Fragment>
+    <SidebarItem
+      href="/playlist/1"
+      image="playlist01.png"
+    />
+    <SidebarItem
+      href="/hits/1"
+      image="playlist02.png"
+    />
+    <SidebarItem
+      href="/indi/1"
+      image="playlist03.png"
+    />
+  </React.Fragment>
+</styled.div>
+`;

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ContentPlaylistTitle/> should render successfully and match the snapshots 1`] = `
+<div>
+  <div
+    class="sc-bcXHqe jIIzOc"
+  >
+    <div
+      class="sc-gswNZR sc-dkrFOg dngbGH kjGiDv"
+    >
+      Трек
+    </div>
+    <div
+      class="sc-gswNZR sc-hLBbgP dngbGH hmpNNA"
+    >
+      ИСПОЛНИТЕЛЬ
+    </div>
+    <div
+      class="sc-gswNZR sc-eDvSVe dngbGH ltuYS"
+    >
+      АЛЬБОМ
+    </div>
+    <div
+      class="sc-gswNZR sc-jSUZER dngbGH dGRvtD"
+    >
+      <svg
+        alt="time"
+        class="sc-gKPRtg eaFwHt"
+      >
+        watch.svg
+      </svg>
+    </div>
+  </div>
+</div>
+`;

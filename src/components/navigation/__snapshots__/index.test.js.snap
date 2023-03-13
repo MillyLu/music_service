@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Navigation /> should render successfully and match snapshot 1`] = `
+<div>
+  <nav
+    class="sc-bcXHqe eBRLil"
+    style="background-color: rgb(28, 28, 28);"
+  >
+    <div
+      class="sc-jSUZER iEkKUm"
+    >
+      <img
+        alt="logo"
+        class="sc-gKPRtg cNQYAP"
+        data-testid="logo"
+        src="logoLight.png"
+      />
+    </div>
+    <div
+      aria-hidden="true"
+      class="sc-dkrFOg jFouIx"
+      role="button"
+      tabindex="0"
+    >
+      <span
+        class="sc-hLBbgP jlueLK"
+        style="background-color: rgb(255, 255, 255);"
+      />
+      <span
+        class="sc-hLBbgP jlueLK"
+        style="background-color: rgb(255, 255, 255);"
+      />
+      <span
+        class="sc-hLBbgP jlueLK"
+        style="background-color: rgb(255, 255, 255);"
+      />
+    </div>
+  </nav>
+</div>
+`;

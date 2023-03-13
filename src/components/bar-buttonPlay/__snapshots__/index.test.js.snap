@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonPlay /> should render successfully and call onClick 1`] = `
+<div>
+  <div
+    class="sc-bcXHqe sc-gswNZR sc-dkrFOg cdqdtz dEeYDP TJkgy"
+    data-testid="play"
+  >
+    <svg
+      class="sc-hLBbgP fFHXSW"
+    >
+      <svg>
+        play.svg
+      </svg>
+    </svg>
+    <audio
+      autoplay=""
+      class="sc-eDvSVe gfFGNs"
+      src=""
+    />
+  </div>
+</div>
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FavoritesContainer/> should render successfully and match the snapshot 1`] = `
+<styled.div>
+  <FavoritesMain />
+  <Bar />
+  <Footer />
+</styled.div>
+`;

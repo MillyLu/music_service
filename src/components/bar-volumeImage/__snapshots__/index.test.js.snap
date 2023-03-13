@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VolumeImage /> Snapshots tests should render successfully and match snapshot 1`] = `
+<div>
+  <div
+    class="sc-bcXHqe iEiEuJ"
+  >
+    <svg
+      alt="volume"
+      class="sc-gswNZR klhjmy"
+      data-testid="volumeButton"
+      theme="0"
+    >
+      volume.svg
+    </svg>
+  </div>
+</div>
+`;
