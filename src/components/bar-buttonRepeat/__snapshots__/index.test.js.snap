@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonPlay /> should render successfully 1`] = `
+<div>
+  <div
+    class="sc-bcXHqe sc-gswNZR sc-dkrFOg cdqdtz vtIWx"
+    data-testid="repeat"
+  >
+    <svg
+      alt="repeat"
+      class="sc-hLBbgP cLRKWx"
+      theme="0"
+    >
+      repeat.svg
+    </svg>
+  </div>
+</div>
+`;

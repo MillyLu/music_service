@@ -6,7 +6,7 @@ export function TrackPlayLike({handleAddFavorites}){
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.TrackPlayLike>
-            <Styled.TrackPlayLikeSvg alt='like' theme={theme} onClick={handleAddFavorites}>
+            <Styled.TrackPlayLikeSvg data-testid="like" alt='like' theme={theme} onClick={handleAddFavorites}>
             </Styled.TrackPlayLikeSvg>
         </Styled.TrackPlayLike>
     )

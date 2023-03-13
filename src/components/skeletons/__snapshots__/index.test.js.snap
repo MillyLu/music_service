@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SkeletonTrack/> should render successfully and match snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.div>
+        <styled.div />
+      </styled.div>
+      <styled.div>
+        <Styled(styled.div) />
+      </styled.div>
+    </styled.div>
+    <styled.div>
+      <Styled(styled.div) />
+    </styled.div>
+    <styled.div>
+      <Styled(styled.div) />
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;

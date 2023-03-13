@@ -12,6 +12,8 @@ export function TrackPlayLikeDislike({data}){
     const [addFavorites] = useAddFavoritesMutation();
     const [deleteFavorites] = useDeleteFavoritesMutation();
     const [favoritesItem, setFavorites] = useState([]); 
+
+    console.log(favorites);
     
     useEffect(()=> {
         if(!favorites) return

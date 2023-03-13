@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SidebarItem/> should render successfully and match snapshot 1`] = `
+<styled.div>
+  <NavLink
+    className="App-link"
+  >
+    <styled.img
+      alt="day\\"s playlist"
+    />
+  </NavLink>
+</styled.div>
+`;

@@ -4,6 +4,7 @@ exports[`<TrackPlayLike/> should render successfully and match snapshot 1`] = `
 <styled.div>
   <Styled(Component)
     alt="like"
+    data-testid="like"
     theme={0}
   />
 </styled.div>

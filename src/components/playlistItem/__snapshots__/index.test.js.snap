@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlayListItem/> should render successfully and match snapshot 1`] = `
+<styled.div
+  onClick={[Function]}
+>
+  <styled.div>
+    <styled.div>
+      <styled.div
+        style={
+          Object {
+            "backgroundColor": "#313131",
+          }
+        }
+      >
+        <Styled(Component)
+          alt="music"
+        />
+      </styled.div>
+      <styled.div>
+        <Styled(styled.a)
+          href="#"
+          onClick={[Function]}
+          style={
+            Object {
+              "color": "#FFFFFF",
+            }
+          }
+        >
+          <styled.span />
+        </Styled(styled.a)>
+      </styled.div>
+    </styled.div>
+    <styled.div>
+      <Styled(styled.a)
+        href="#"
+        style={
+          Object {
+            "color": "#FFFFFF",
+          }
+        }
+      />
+    </styled.div>
+    <styled.div>
+      <Styled(styled.a)
+        href="#"
+      />
+    </styled.div>
+    <styled.div>
+      <Styled(Component)
+        alt="time"
+        onClick={[Function]}
+        theme={0}
+      />
+      <styled.span />
+    </styled.div>
+  </styled.div>
+</styled.div>
+`;

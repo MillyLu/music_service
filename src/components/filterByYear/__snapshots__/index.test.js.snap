@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FilterButtonYear/> should render successfully and match snapshot 1`] = `
+<styled.div
+  theme={0}
+>
+  <styled.div>
+    <styled.input
+      checked={false}
+      name="year"
+      onChange={[Function]}
+      theme={0}
+      type="radio"
+      value="new"
+    />
+    <styled.label />
+    <div
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+    >
+      Более новые
+    </div>
+  </styled.div>
+  <styled.div>
+    <styled.input
+      checked={false}
+      name="year"
+      onChange={[Function]}
+      theme={0}
+      type="radio"
+      value="old"
+    />
+    <styled.label />
+    <div
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+    >
+      Более старые
+    </div>
+  </styled.div>
+</styled.div>
+`;
