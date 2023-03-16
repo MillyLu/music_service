@@ -61,3 +61,15 @@ letter-spacing: -0.003em;
 color: black;
 `
 
+export const Error = styled(PasswordHelp)`
+width: 278px;
+text-align: center;
+font-family: 'StratosSkyeng',sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 18px;
+letter-spacing: -0.003em;
+color: red;
+`
+

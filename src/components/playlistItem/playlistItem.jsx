@@ -1,9 +1,12 @@
-import { useContext } from 'react';
+/* eslint-disable no-unneeded-ternary */
+import { useContext} from 'react';
 import * as Styled from './styles';
 import { ThemeContext } from '../../ThemeProvider';
 
 export function PlayListItem({id, author, album, time, title, subtitle, item, handleChangeOfFavorites, onFetchTrack}) { 
     const {theme} = useContext(ThemeContext);
+
+
     return(
         <Styled.PlaylistItem onClick={() => onFetchTrack(id)}> 
             <Styled.PlaylistTrack>
@@ -25,7 +28,7 @@ export function PlayListItem({id, author, album, time, title, subtitle, item, ha
                     <Styled.TrackAlbumLink href='#'>{album}</Styled.TrackAlbumLink>
                 </Styled.TrackAlbum>
                 <Styled.TrackTime>
-                    <Styled.TrackTimeSvg theme={theme} alt='time' onClick={(event) => {
+                    <Styled.TrackTimeSvg  theme={theme} alt='time' onClick={(event) => {
           handleChangeOfFavorites(item)
           event.stopPropagation()
         }}>
