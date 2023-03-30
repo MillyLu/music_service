@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const FAVOR_TAGS = 'Favorite'
+// const FAVOR_TAGS = 'Favorite'
+const FAVOR_TAGS = { type: "Favorite", id: "id" }
 
 export const favoritesApi = createApi({
     reducerPath: 'favorites',
@@ -26,13 +27,14 @@ export const favoritesApi = createApi({
                 method: 'GET'
             }),
             refetchOnWindowFocus: false,
-            providesTags: (result=[]) => 
+            providesTags: [FAVOR_TAGS]
+           /*  providesTags: (result=[]) => 
             result 
             ? [
          ...result.map(({ id }) => ({ type: FAVOR_TAGS, id })),
          FAVOR_TAGS,
-            ] : [FAVOR_TAGS],
-        }),
+            ] : [FAVOR_TAGS], */
+        }), 
 
         addFavorites: builder.mutation({
             query: (id) => ({
@@ -47,7 +49,8 @@ export const favoritesApi = createApi({
                 url: `${id}/favorite/`,
                 method: "DELETE",
             }),
-            invalidatesTags: [FAVOR_TAGS],
+             invalidatesTags: [FAVOR_TAGS],
+           // invalidatesTags: (post) => [{ type: FAVOR_TAGS.type, id: post?.id }],
         })
     }),
 

@@ -73,6 +73,7 @@ function findPrevTrack() {
     const playAnimationRef = useRef();
 
     const repeat = useCallback(() => {
+      if(aud.current.currentTime) {
       const currentTime = aud.current.currentTime;
       setTimeProgress(currentTime);
       inputRef.current.value = currentTime;
@@ -81,7 +82,7 @@ function findPrevTrack() {
         `${(inputRef.current.value / duration) * 100}%`
       );
   
-      playAnimationRef.current = requestAnimationFrame(repeat);
+      playAnimationRef.current = requestAnimationFrame(repeat);}
     }, [aud, duration, inputRef, setTimeProgress]);
   
     useEffect(() => {
