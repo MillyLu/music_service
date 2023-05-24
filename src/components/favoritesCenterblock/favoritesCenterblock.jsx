@@ -10,7 +10,7 @@ import { Title } from '../title/title';
 // import { Filter } from '../filters/filters';
 import { SkeletonTrack } from '../skeletons/skeletonTrack';
 import { ContentPlaylistTitle } from '../playListTitle/playListTitle';
-import { ContentPlaylistPlaylist } from '../contentPlaylist/contentPlaylist';
+import { ContentPlaylistFavorites } from '../contentPlaylistFavorites/contentPlaylistFavorites';
 import * as Styled from './styles';
 
 
@@ -72,7 +72,8 @@ const { theme } = useContext(ThemeContext);
     } */
 useEffect(() => {
     if(!trackList) return
-    if(trackList) setTracks(trackList)
+    if(trackList) {setTracks(tracksAll);
+         console.log(tracksAll);}   // 30.03.2023
 }, [isTracksSuccess])
    
     useEffect(() => {
@@ -117,7 +118,7 @@ useEffect(() => {
             {isTracksLoading && (
               [...new Array(10).keys()].map((key) => <SkeletonTrack key={key} />) ) }
              {(tracks.length > 1 || tracks.length === 1) && ( 
-              <ContentPlaylistPlaylist tracks={tracks}  />)}
+              <ContentPlaylistFavorites tracks={tracks}  />)}
             
         </Styled.CenterblockContent>
 

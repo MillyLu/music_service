@@ -29,6 +29,7 @@ export function StartscreenForm() {
         if(username && password) {
             await loginUser({username, email, password}).unwrap()
             // localStorage.setItem('token', 'true');
+            .then(() => localStorage.setItem('name', username)) 
              await getUserToken({username, email, password}).unwrap()
              // .then((data) => localStorage.setItem('toki', data.refresh))
               .then((data) => {dispatch(setUser({refresh: data.refresh, access: data.access}))} )

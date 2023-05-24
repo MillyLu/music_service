@@ -23,7 +23,8 @@ export function TrackPlayLikeDislike({data}){
     
       const handleAddFavorites = () => {
         const id = data.id;
-        if(favoritesItem.includes(id)) {
+        console.log(id);
+        if(favorites.includes(id)) {
             return
         }
         addFavorites(id)
@@ -31,6 +32,7 @@ export function TrackPlayLikeDislike({data}){
 
       const handleDeleteFavorites = () => {
         const id = data.id;
+        console.log(id);
         if(favoritesItem.includes(id)) {
             deleteFavorites(id)
         }
