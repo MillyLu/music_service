@@ -2,8 +2,10 @@
 
 import { createGlobalStyle} from 'styled-components';
 import { useEffect } from 'react';
+// import  { useSelector} from 'react-redux';
 import { AppRoutes } from "./routes";
 import {useRefreshUserTokenMutation} from "./services/user";
+//  import {authSelector}  from "./store/state"
 
 
 
@@ -68,34 +70,30 @@ body {
 
 function App() {
    
- const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token'); 
  
- const toki = localStorage.getItem('toki');
- console.log(toki);
-  
- 
- 
- 
- 
-   const [refreshT] = useRefreshUserTokenMutation();
- 
- 
- 
-   const handleRefreshAccess = () => {
-     
-     
-        
-           refreshT({ refresh: localStorage.getItem('toki')})
-       }
- 
-   useEffect(() => {
-     // handleRefreshAccess()
-    // setRefresh(tokenString);
-     const timer = setInterval(handleRefreshAccess, 30000)
-     return () => clearInterval(timer)
-   }, [])
- 
- 
+    const tk = localStorage.getItem('refresh');
+    console.log(tk);
+    
+     /* const isLoggedIn = useSelector(authSelector);
+       const {refresh} = isLoggedIn.token || ''; */
+    
+    
+      const [refreshT] = useRefreshUserTokenMutation();
+    
+    
+    
+      const handleRefreshAccess = () => {   
+           
+             refreshT({ "refresh": localStorage.getItem('refresh')})
+          }
+    
+      useEffect(() => {
+        // handleRefreshAccess()
+       // setRefresh(tokenString);
+        const timer = setInterval(handleRefreshAccess, 30000)
+        return () => clearInterval(timer)
+      }, [])
  
  
  
