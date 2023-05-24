@@ -3,6 +3,7 @@ import { trackApi } from '../services/track';
 // import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { userApi } from '../services/user';
+import { favoritesApi } from '../services/favorites';
 import authReducer from './state';
 
 
@@ -13,10 +14,11 @@ export const store = configureStore({
         auth: authReducer,
         [userApi.reducerPath]: userApi.reducer,
         [trackApi.reducerPath]: trackApi.reducer,
+        [favoritesApi.reducerPath]: favoritesApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) => 
-      getDefaultMiddleware().concat(userApi.middleware).concat(trackApi.middleware),
+      getDefaultMiddleware().concat(userApi.middleware).concat(trackApi.middleware).concat(favoritesApi.middleware),
 })
 
 
