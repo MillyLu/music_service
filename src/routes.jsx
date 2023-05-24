@@ -7,6 +7,7 @@ import { Register } from "./components/pages/register";
 import { Playlist } from "./components/pages/playlist";
 import { Indi } from "./components/pages/indi";
 import  { Hits } from "./components/pages/100hits";
+import { FavoritesPage } from "./components/pages/favorites";
 import { ProtectedRoute } from "./components/protected-route/protected-route";
 
 
@@ -26,6 +27,7 @@ export function AppRoutes ({ user })  {
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/indi/:id" element={<Indi />} />
             <Route path="/hits/:id" element={<Hits />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
         </Route>
         
       

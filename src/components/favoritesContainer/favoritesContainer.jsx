@@ -1,33 +1,33 @@
 
-import * as Styled from './styles';
 
 
-// import Bar from '../bar/bar';
-import MainCenterBlock from '../centerblock/centerblock';
+
+import Bar from '../bar/bar';
+import { FavoritesCenterBlock } from '../favoritesCenterblock/favoritesCenterblock';
 import MainSideBar from '../sidebar/sidebar';
 import Navigation from '../navigation/nav';
 import { Footer } from '../footer/footer';
+import * as Styled from './styles';
 
 
 
 
 
-
-function Main() {
+function FavoritesMain() {
     return(
         <Styled.Main>
             <Navigation />
-            <MainCenterBlock />
+            <FavoritesCenterBlock />
             <MainSideBar />
         </Styled.Main>
     )
 }
 
-export function Container() {
+export function FavoritesContainer() {
     return(
         <Styled.Container>
-            <Main />
-
+            <FavoritesMain />
+            <Bar />
             <Footer />
         </Styled.Container>
     )

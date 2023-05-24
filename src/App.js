@@ -84,7 +84,7 @@ function App() {
           }
     
       useEffect(() => {
-        const timer = setInterval(handleRefreshAccess, 30000)
+        const timer = setInterval(handleRefreshAccess, 300000)
         return () => clearInterval(timer)
       }, [])
  
