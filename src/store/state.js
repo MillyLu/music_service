@@ -20,6 +20,12 @@ export const authSlice = createSlice({
             localStorage.setItem('refresh', refresh);
             console.log(localStorage.getItem('refresh'));
         }, 
+
+        deleteUser: (state) => {
+            state.refresh = initialState.refresh;
+            state.access = initialState.access;
+            localStorage.removeItem('refresh');
+        },
         
         defaultState: (state) => {
             state = initialState;
@@ -27,7 +33,7 @@ export const authSlice = createSlice({
     }
     });
 
-export const { setUser, defaultState } = authSlice.actions;
+export const { setUser, defaultState, deleteUser } = authSlice.actions;
 export default authSlice.reducer;
 
 export const authSelector = (store) => store.auth;
