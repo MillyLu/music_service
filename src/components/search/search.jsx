@@ -37,7 +37,7 @@ export function Search(props) {
                 
             </Styled.SearchSvg>
 
-            <Styled.SearchText isTheme={theme} onChange={handleChangeSearch} onKeyDown={handleKey} type='search' placeholder='Поиск' name='search' style={{"backgroundColor": theme==="light" ? "#FFFFFF" : "#1C1C1C", "color": theme === "light" ? "#000000" : "#FFFFFF"}}/>
+            <Styled.SearchText data-testid="search" isTheme={theme} onChange={handleChangeSearch} onKeyDown={handleKey} type='search' placeholder='Поиск' name='search' style={{"backgroundColor": theme==="light" ? "#FFFFFF" : "#1C1C1C", "color": theme === "light" ? "#000000" : "#FFFFFF"}}/>
         </Styled.CenterblockSearch>
     )
 } 

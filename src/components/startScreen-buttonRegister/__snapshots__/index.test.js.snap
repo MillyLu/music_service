@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StartscreenButtonRegister> should render and call handleClick on click 1`] = `
+<div>
+  <button
+    class="sc-bcXHqe sc-gswNZR cODikO lldMik"
+  >
+    Зарегистрироваться
+  </button>
+</div>
+`;

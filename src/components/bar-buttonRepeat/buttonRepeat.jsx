@@ -12,7 +12,7 @@ export function ButtonRepeat({setReloop, reloop}){
         if(reloop === true) setReloop(false)
     }    
     return(
-        <Styled.PlayerButtonRepeat  onClick={changeLoop}>
+        <Styled.PlayerButtonRepeat data-testid="repeat"  onClick={changeLoop}>
             <Styled.PlayerButtonRepeatSvg theme={theme}  alt='repeat'>
 
             </Styled.PlayerButtonRepeatSvg>

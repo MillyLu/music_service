@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StartscreenLogo/> should render successfully and match snapshot 1`] = `
+<Styled(styled.div)>
+  <Styled(styled.img)
+    src="logo-log.png"
+  />
+</Styled(styled.div)>
+`;

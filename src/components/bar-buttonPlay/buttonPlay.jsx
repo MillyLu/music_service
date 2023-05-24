@@ -6,7 +6,7 @@ import * as Styled from './styles';
  export function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, setEnd, reloop}) {
 
     return(
-        <Styled.PlayerButtonPlay isSelected={isPlaying} onClick={toggleAudio}>
+        <Styled.PlayerButtonPlay data-testid="play" isSelected={isPlaying} onClick={toggleAudio}>
                  <Styled.PlayerButtonPlaySvg >
                     {
                         isPlaying ? 

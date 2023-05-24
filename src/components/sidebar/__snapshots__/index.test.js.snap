@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MainSideBar/> should render successfully and match snapshot 1`] = `
+<styled.div
+  theme={0}
+>
+  <SidebarPersonal />
+  <styled.div>
+    <SidebarList />
+  </styled.div>
+</styled.div>
+`;

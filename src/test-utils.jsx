@@ -10,6 +10,7 @@ import {
 } from "./ThemeProvider";
 import { favoritesApi} from './services/favorites';
 import { trackApi} from './services/track';
+import authReducer from './store/state';
 
 
 
@@ -90,8 +91,38 @@ export function withStoreProvider(store) {
 }; */
 
 export const setupApiStoreTwo = (api, extraReducers, withoutListeners) => {
-  const getStore = () =>
-    configureStore({
+  const getStore = () => {
+  if (Array.isArray(api)) {
+    const combinedReducesrs = api.reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur.reducerPath]: cur.reducer
+      }),
+      {}
+    )
+    const combinedMiddlewares = api.map((item) => item.middleware)
+    return configureStore({
+      reducer: {
+        auth: authReducer,
+        ...combinedReducesrs,
+        ...extraReducers
+      },
+      middleware: (gdm) =>
+        gdm({ serializableCheck: false, immutableCheck: false }).concat(combinedMiddlewares)
+    })
+  }
+
+  return configureStore({
+    reducer: {
+      auth: authReducer,
+      [api.reducerPath]: api.reducer,
+      ...extraReducers
+    },
+    middleware: (gdm) =>
+      gdm({ serializableCheck: false, immutableCheck: false }).concat(api.middleware)
+  })
+}
+ /*   return configureStore({
       reducer: { [trackApi.reducerPath]: trackApi.reducer,
         [favoritesApi.reducerPath]: favoritesApi.reducer,
          ...extraReducers },
@@ -99,7 +130,8 @@ export const setupApiStoreTwo = (api, extraReducers, withoutListeners) => {
         gdm({ serializableCheck: false, immutableCheck: false }).concat(
           trackApi.middleware
         ).concat(favoritesApi.middleware),
-    });
+    })
+  } */
     const initialStore = getStore();
   const refObj = {
     api,
@@ -127,6 +159,7 @@ export const setupApiStoreTwo = (api, extraReducers, withoutListeners) => {
     }
 
     refObj.store.dispatch(trackApi.util.resetApiState());
+    refObj.store.dispatch(favoritesApi.util.resetApiState())
   });
 
   return refObj;
