@@ -1,44 +1,43 @@
+/* eslint-disable import/extensions */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-undef */
-/* import * as ShallowRenderer from 'react-shallow-renderer';
-import { shallow } from 'enzyme';
+ // import * as ShallowRenderer from 'react-shallow-renderer';
+ import { screen, render,  fireEvent } from "@testing-library/react";
+// eslint-disable-next-line import/no-unresolved
+
 // import { ShallowRenderer, createRenderer } from 'react-shallow-renderer';
 import { VolumeImage } from './volumeImage';
-import * as Styled from './styles'
-
-const Wrapped = ({ children }) => {
-  return <VolumeImage>{children}</VolumeImage>
-}
+import * as Styled from './styles';
 
 
 
-describe('<VolumeImage/>', () => {
-        it('should render successfully and match snapshot', () => {
-            const shallowRenderer = ShallowRenderer.createRenderer();
-            const renderer = shallowRenderer;
-            renderer.render(<Wrapped>album</Wrapped>);
-            const tree = renderer.getRenderOutput();
-            expect(tree).toMatchSnapshot();
-          })
-      });
+describe("<VolumeImage />", () => {
+  describe("Snapshots tests", () => {
+    it("should render successfully and match snapshot", () => {
+      const { container } = render(<VolumeImage></VolumeImage>);
 
-
-test('it calls start change muteVolume on button click', () => {
-    const mockClick = jest.fn();
-     const wrapper = shallow(<Styled.VolumeImage on>
-            <Styled.VolumeSvg onClick={mockClick} alt='volume'>
-
-            </Styled.VolumeSvg>
-        </Styled.VolumeImage>);
-   wrapper.find('svg').simulate('click');
-    expect(mockLogout).toHaveBeenCalled();
+      expect(container).toMatchSnapshot();
+    });
+  });
 });
 
-import {render, screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event' 
+describe("Callbacks tests", () => {
+  it("should call 'onClick' prop", () => {
+    const cb = jest.fn();
 
-import { render } from '@testing-library/react';
-import { customRender } from '../../test-utils';
-*/
+    render(
+      <Styled.VolumeImage >
+            <Styled.VolumeSvg data-testid="volumeButton" onClick={cb} alt='volume'>
+
+            </Styled.VolumeSvg>
+        </Styled.VolumeImage> 
+    );
+
+    const volumeButton = screen.getByTestId("volumeButton");
+    fireEvent.click(volumeButton);
+
+    expect(cb).toBeCalledTimes(1);
+  })
+}); 

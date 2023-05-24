@@ -9,8 +9,8 @@ export function VolumeImage({setMuteVolume}) {
 
     const muteVolume = () => setMuteVolume((prev) => !prev);
     return(
-        <Styled.VolumeImage on>
-            <Styled.VolumeSvg theme={theme} onClick={muteVolume} alt='volume'>
+        <Styled.VolumeImage >
+            <Styled.VolumeSvg data-testid="volumeButton" theme={theme} onClick={muteVolume} alt='volume'>
 
             </Styled.VolumeSvg>
         </Styled.VolumeImage>

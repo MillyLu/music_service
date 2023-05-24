@@ -16,7 +16,7 @@ export function BarProgress({
     return (
         <Styled.BarPlayerProgress>
              
-              <Styled.Progress type="range" defaultValue='0' ref={inputRef} onChange={handleProgressChange}></Styled.Progress>
+              <Styled.Progress data-testid="progress" type="range" defaultValue='0' ref={inputRef} onChange={handleProgressChange}></Styled.Progress>
 
         </Styled.BarPlayerProgress>
     )
