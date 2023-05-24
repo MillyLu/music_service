@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlaylistContainer/> should render successfully and match snapshot 1`] = `
+<styled.div>
+  <TrackPlayContain />
+  <TrackPlayLikeDislike />
+</styled.div>
+`;

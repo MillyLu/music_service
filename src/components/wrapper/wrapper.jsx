@@ -10,24 +10,14 @@ import { Footer } from '../footer/footer';
 
 
 
-
-
-
-function Main() {
-    return(
-        <Styled.Main>
-            <Navigation />
-            <MainCenterBlock />
-            <MainSideBar />
-        </Styled.Main>
-    )
-}
-
 export function Container() {
     return(
         <Styled.Container>
-            <Main />
-
+             <Styled.Main>
+                <Navigation />
+                <MainCenterBlock />
+                <MainSideBar />
+            </Styled.Main>
             <Footer />
         </Styled.Container>
     )

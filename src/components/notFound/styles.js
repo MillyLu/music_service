@@ -53,6 +53,12 @@ font-size: 18px;
 line-height: 24px;
 text-align: center;
 padding: 10px 20px;
+&:hover{
+    background: #3F007D;
+}
+&:active{
+    background: #271A58;
+}
 `;
 
 export const CenterblockContent = styled.div`
@@ -92,3 +98,8 @@ display: flex;
     -ms-flex-pack: justify;
         justify-content: space-between;
 `;
+
+export const Image = styled.img`
+width: 50px;
+height: 50px;
+`

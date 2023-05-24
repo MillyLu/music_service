@@ -1,16 +1,6 @@
 import styled from "styled-components";
 
 
- import {ReactComponent as DislikeSvg} from '../svg/dislike/dislike.svg';
- import {ReactComponent as LikeSvg} from '../svg/like/like.svg';
- import {ReactComponent as NextSvg} from '../svg/next/next.svg';
- import {ReactComponent as NoteSvg} from '../svg/note/note.svg';
- import {ReactComponent as PrevSvg} from '../svg/prev/prev.svg';
-  import {ReactComponent as RepeatSvg} from '../svg/repeat/repeat.svg';
-  import {ReactComponent as ShuffleSvg} from '../svg/shuffle/shuffle.svg';
- import {ReactComponent as VolumerSvg} from '../svg/volume/volume.svg';
-
-
 export const Bar = styled.div`
 position: fixed;
 bottom: 0;
@@ -19,7 +9,7 @@ width: 100%;
 background:${props => props.theme === "light" ? "#FFFFFF" : "rgba(28, 28, 28, 0.5)"}; 
 `;
 
-export const BarContent = styled.div`
+/* export const BarContent = styled.div`
 display: -webkit-box;
 display: -ms-flexbox;
 display: flex;
@@ -382,4 +372,4 @@ height: 51px;
 export const Audio = styled.audio`
 display: none;
 `
-
+*/
