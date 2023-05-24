@@ -56,7 +56,7 @@ function SidebarList() {
 
             setSkeleton(false);
 
-        }, 5000);
+        }, 300);
     }, []);
  
     return(

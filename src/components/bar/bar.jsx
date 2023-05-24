@@ -1,15 +1,17 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-param-reassign */
 import { useState, useEffect, useRef, useContext, useCallback} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ThemeContext } from '../../ThemeProvider';
 import * as Styled from './styles';
 import { ReactComponent as StopSvg } from './stop.svg';
-
-import { selectTrack } from '../../store/trackSlice';
+import { setTrack, selectTrack } from '../../store/trackSlice';
 import { useGetTrackByIdQuery } from '../../services/track';
+import {useGetFavoritesQuery, useAddFavoritesMutation, useDeleteFavoritesMutation} from '../../services/favorites';
+import {ReactComponent as PlaySvg} from '../svg/play/play.svg';
 
 
 
@@ -18,29 +20,51 @@ import { useGetTrackByIdQuery } from '../../services/track';
 // -------------------Player__Controls----------------------//
 
 
-function BarContent({setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}) {
+function BarContent({tracks, getShuffleTracks}) {
 
     const [isPlaying, setPlaying] = useState(false);
+    const [isEnd, setEnd] = useState(false);
 
      const [timeProgress, setTimeProgress ] = useState(0);
      const [duration, setDuration] = useState(0);
      const [volume, setVolume] = useState(60);
      const [muteVolume, setMuteVolume] = useState(false);
-const [onPlay, setOnPlay] =useState('');
+     const [reloop, setReloop] = useState(false);
+
 
     const aud = useRef(null);
     const inputRef = useRef(null);
-console.log(timeProgress);
-// /////////////////////
+
     const trackId = useSelector(selectTrack);
 
     const { data } = useGetTrackByIdQuery(trackId, { skip: !trackId});
-useEffect(() => {
-    if(!data) return
-    setOnPlay(data);
-    console.log(onPlay);
-    setCurrentTrack(data.id);
-}, [data])
+
+    const dispatch = useDispatch();
+
+console.log(timeProgress);
+// /////////////////////
+
+
+
+ function findNextTrack() {
+    console.log(data);
+    const nextIndex = ((tracks.findIndex(el => el.id === data.id)) + 1 ) // % tracks.length
+    console.log(nextIndex);
+    if (nextIndex) {
+    const nextId = ((tracks[nextIndex].id))
+    dispatch(setTrack(nextId))
+    console.log(data);
+    }
+}
+
+function findPrevTrack() {
+    const prevIndex = ((tracks.findIndex(el => el.id === data.id)) - 1)
+    if (prevIndex >= 0) {
+        const prevId = ((tracks[prevIndex].id))
+        dispatch(setTrack(prevId))
+
+}
+} 
 
 
     const playAnimationRef = useRef();
@@ -72,6 +96,13 @@ useEffect(() => {
           aud.current.muted = muteVolume;
         }
       }, [volume, aud, muteVolume]);
+
+    useEffect(() => {
+        if(isEnd) {
+            findNextTrack();
+            setEnd(false)
+        }
+    }, [isEnd])  
  
  const handlePause = () => {
     aud.current.pause()
@@ -95,24 +126,6 @@ useEffect(() => {
         inputRef.current.max = seconds;
       };
 
-      /* 
-        <Styled.PlayerButtonPlay isSelected={isPlaying} onClick={toggleAudio}>
-                 <Styled.PlayerButtonPlaySvg >
-                    {
-                        isPlaying ? 
-                        <StopSvg />
-                            :
-                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
-                        
-                    }
-                     
-                 </Styled.PlayerButtonPlaySvg>
-
-                 <Styled.Audio  onLoadedMetadata={onLoadedMetadata}  ref={aud} src={data ? data?.track_file : '' } onPlay={()=>setPlaying(true)} onPause={()=>{setPlaying(false)}} autoPlay></Styled.Audio>
-                         
-                     
-            
-                </Styled.PlayerButtonPlay> */
 
 return(
     <Styled.BarContent>
@@ -120,13 +133,13 @@ return(
         <Styled.BarPlayerBlock>
             <Styled.BarPlayer>
                 <Styled.PlayerControls>
-                <ButtonPrevious {...{setIsPrev}}/>
-               < ButtonPlay {...{data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, nextTrack, prevTrack }}/> 
-                <ButtonNext {...{setIsNext}} />
-                <ButtonRepeat />
-                <ButtonShuffle />
+                <ButtonPrevious {...{findPrevTrack}}/>
+               < ButtonPlay {...{data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, setEnd, reloop }}/> 
+                <ButtonNext {...{findNextTrack}}/>
+                <ButtonRepeat {...{setReloop, reloop}}/>
+                <ButtonShuffle {...{getShuffleTracks}}/>
                 </Styled.PlayerControls>
-                <PlayerTrackPlay onPlay={onPlay}/>     
+                <PlayerTrackPlay data={data}/>     
             </Styled.BarPlayer>
         <BarVolumeBlock {...{setMuteVolume, volume, setVolume}}/>    
         </Styled.BarPlayerBlock>    
@@ -137,7 +150,7 @@ return(
 
 }
 
-function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, nextTrack, prevTrack }) {
+function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPlaying, setEnd, reloop}) {
 
     return(
         <Styled.PlayerButtonPlay isSelected={isPlaying} onClick={toggleAudio}>
@@ -146,13 +159,13 @@ function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPl
                         isPlaying ? 
                         <StopSvg />
                             :
-                        <use xlinkHref='img/icon/sprite.svg#icon-play' />
+                        <PlaySvg />
                         
                     }
                      
                  </Styled.PlayerButtonPlaySvg>
 
-                 <Styled.Audio  onLoadedMetadata={onLoadedMetadata}  ref={aud} src={nextTrack ? nextTrack?.track_file : (data ? data?.track_file : (prevTrack ? prevTrack?.track_file : '')) } onPlay={()=>setPlaying(true)} onPause={()=>{setPlaying(false)}} autoPlay></Styled.Audio>
+                 <Styled.Audio loop={reloop}  onLoadedMetadata={onLoadedMetadata}  ref={aud} src={(data ? data?.track_file : '')} onPlay={()=>setPlaying(true)} onPause={()=>{setPlaying(false)}} onEnded={()=>{setEnd(true)}} autoPlay></Styled.Audio>
                          
                      
             
@@ -162,11 +175,11 @@ function ButtonPlay({ data, isPlaying, toggleAudio, aud, onLoadedMetadata, setPl
 
 
 
-function ButtonPrevious({setIsPrev}){
+function ButtonPrevious({findPrevTrack}){
     return(
-        <Styled.PlayerButtonPrev onClick={() => setIsPrev(true)}>
+        <Styled.PlayerButtonPrev onClick={findPrevTrack}>
             <Styled.PlayerButtonPrevSvg alt='prev'>
-                <use xlinkHref='img/icon/sprite.svg#icon-prev' />
+
             </Styled.PlayerButtonPrevSvg>
         </Styled.PlayerButtonPrev>
     )
@@ -174,35 +187,44 @@ function ButtonPrevious({setIsPrev}){
 
 
 
-function ButtonNext({setIsNext}){
+function ButtonNext({findNextTrack}){
 
    /* function handleNext() {
         setNext(true);
     } */
     return(
-        <Styled.PlayerButtonNext  onClick={() => setIsNext(true)}>
+        <Styled.PlayerButtonNext onClick={findNextTrack}>
             <Styled.PlayerButtonNextSvg alt='next'>
-                <use xlinkHref='img/icon/sprite.svg#icon-next' />
+
             </Styled.PlayerButtonNextSvg>
         </Styled.PlayerButtonNext>
     )
 }
 
-function ButtonRepeat(){
+function ButtonRepeat({setReloop, reloop}){
+
+    const {theme} = useContext(ThemeContext);
+
+    function changeLoop () {
+        if(reloop === false) setReloop(true);
+        if(reloop === true) setReloop(false)
+    }    
     return(
-        <Styled.PlayerButtonRepeat>
-            <Styled.PlayerButtonRepeatSvg alt='repeat'>
-                <use xlinkHref='img/icon/sprite.svg#icon-repeat' />
+        <Styled.PlayerButtonRepeat  onClick={changeLoop}>
+            <Styled.PlayerButtonRepeatSvg theme={theme}  alt='repeat'>
+
             </Styled.PlayerButtonRepeatSvg>
         </Styled.PlayerButtonRepeat>
     )
 }
 
-function ButtonShuffle(){
+function ButtonShuffle({getShuffleTracks}){
+
+    const {theme} = useContext(ThemeContext);
+
     return(
-        <Styled.PlayerButtonShuffle>
-            <Styled.PlayerButtonShuffleSvg alt='shuffle'>
-                <use xlinkHref='img/icon/sprite.svg#icon-shuffle' />
+        <Styled.PlayerButtonShuffle onClick={getShuffleTracks}>
+            <Styled.PlayerButtonShuffleSvg theme={theme} alt='shuffle'>
             </Styled.PlayerButtonShuffleSvg>
         </Styled.PlayerButtonShuffle>
     )
@@ -229,26 +251,25 @@ function TrackPlayImage(){
     return(
         <Styled.TrackPlayImage theme={theme}>
             <Styled.TrackPlaySvg>
-                <use xlinkHref='img/icon/sprite.svg#icon-note' />
             </Styled.TrackPlaySvg>
         </Styled.TrackPlayImage>
     )
 }
 
-function TrackPlayAuthor({onPlay}){
+function TrackPlayAuthor({data}){
     const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAuthor>
-            <Styled.TrackPlayLinkAuthor theme={theme} >{onPlay.author}</Styled.TrackPlayLinkAuthor>
+            <Styled.TrackPlayLinkAuthor theme={theme} >{data.author}</Styled.TrackPlayLinkAuthor>
         </Styled.TrackPlayAuthor>
     )
 }
 
-function TrackPlayAlbum({onPlay}){
+function TrackPlayAlbum({data}){
     const {theme} = useContext(ThemeContext)
     return(
         <Styled.TrackPlayAlbum>
-            <Styled.TrackPlayLinkAlbum theme={theme} >{onPlay.album}</Styled.TrackPlayLinkAlbum>
+            <Styled.TrackPlayLinkAlbum theme={theme} >{data.album}</Styled.TrackPlayLinkAlbum>
         </Styled.TrackPlayAlbum>
     )
 }
@@ -277,15 +298,15 @@ function TrackPlaySkeletonAlbum(){
     )
 }
 
-function TrackPlayContain({onPlay}) {
-    console.log(onPlay);
+function TrackPlayContain({data}) {
+ 
     const [skeleton, setSkeleton] = useState(true);
   
     useEffect(() => {
-        if(!onPlay) return
+        if(!data) return
         setSkeleton(false);
 
-    }, [onPlay]); 
+    }, [data]); 
 
     return(
         <Styled.TrackPlayContain>
@@ -293,8 +314,8 @@ function TrackPlayContain({onPlay}) {
              (
             <>
             <TrackPlayImage />
-            <TrackPlayAuthor onPlay={onPlay}/>
-            <TrackPlayAlbum onPlay={onPlay}/>
+            <TrackPlayAuthor data={data}/>
+            <TrackPlayAlbum data={data}/>
             </>) :
             (
                 <>
@@ -308,33 +329,60 @@ function TrackPlayContain({onPlay}) {
     )
 }
 
-function TrackPlayLike(){
+function TrackPlayLike({handleAddFavorites}){
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.TrackPlayLike>
-            <Styled.TrackPlayLikeSvg alt='like' theme={theme}>
-                <use xlinkHref='img/icon/sprite.svg#icon-like' />
+            <Styled.TrackPlayLikeSvg alt='like' theme={theme} onClick={handleAddFavorites}>
             </Styled.TrackPlayLikeSvg>
         </Styled.TrackPlayLike>
     )
 }
 
-function TrackPlayDislike(){
+function TrackPlayDislike({handleDeleteFavorite}){
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.TrackPlayDislike>
-            <Styled.TrackPlayDislikeSvg alt='dislike' theme={theme}>
-                <use xlinkHref='img/icon/sprite.svg#icon-dislike' />
+            <Styled.TrackPlayDislikeSvg alt='dislike' theme={theme} onClick={handleDeleteFavorite}>
+
             </Styled.TrackPlayDislikeSvg>
         </Styled.TrackPlayDislike>
     )
 }
 
-function TrackPlayLikeDislike(){
+function TrackPlayLikeDislike({data}){
+
+
+    const {data: favorites} = useGetFavoritesQuery();  
+    const [addFavorites] = useAddFavoritesMutation();
+    const [deleteFavorites] = useDeleteFavoritesMutation();
+    const [favoritesItem, setFavorites] = useState([]); 
+    
+    useEffect(()=> {
+        if(!favorites) return
+        setFavorites(favorites.map((item) => item.id))
+        console.log(favoritesItem);
+      }, [favorites]);
+    
+      const handleAddFavorites = () => {
+        const id = data.id;
+        if(favoritesItem.includes(id)) {
+            return
+        }
+        addFavorites(id)
+      }
+
+      const handleDeleteFavorites = () => {
+        const id = data.id;
+        if(favoritesItem.includes(id)) {
+            deleteFavorites(id)
+        }
+      }
+
     return(
         <Styled.TrackPlayLikeDis>
-            <TrackPlayLike />
-            <TrackPlayDislike />
+            <TrackPlayLike handleAddFavorites={handleAddFavorites}/>
+            <TrackPlayDislike handleDeleteFavorites={handleDeleteFavorites} />
         </Styled.TrackPlayLikeDis>
     )
 }
@@ -343,7 +391,7 @@ function PlayerTrackPlay({data}){
     return(
         <Styled.TrackPlay>
             <TrackPlayContain data={data} />
-            <TrackPlayLikeDislike  />
+            <TrackPlayLikeDislike data={data} />
         </Styled.TrackPlay>
     )
 }
@@ -364,11 +412,13 @@ function BarPlayer(){
 
 function VolumeImage({setMuteVolume}) {
 
+    const { theme } = useContext(ThemeContext)
+
     const muteVolume = () => setMuteVolume((prev) => !prev);
     return(
         <Styled.VolumeImage on>
-            <Styled.VolumeSvg onClick={muteVolume} alt='volume'>
-                <use xlinkHref='img/icon/sprite.svg#icon-volume' />
+            <Styled.VolumeSvg theme={theme} onClick={muteVolume} alt='volume'>
+
             </Styled.VolumeSvg>
         </Styled.VolumeImage>
     )
@@ -434,11 +484,11 @@ function BarContent() {
 }
 */
 
-function Bar({setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}) {
+function Bar({tracks, getShuffleTracks}) {
     const {theme} = useContext(ThemeContext);
     return(
         <Styled.Bar theme={theme}>
-            <BarContent {...{setIsNext, nextTrack, setIsPrev, prevTrack, setCurrentTrack}}/>
+            <BarContent {...{tracks, getShuffleTracks}}/>
         </Styled.Bar>
     )
 }

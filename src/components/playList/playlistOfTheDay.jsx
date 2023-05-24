@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-no-bind */
 
 import { useState, useEffect, useContext} from 'react';
-import { useParams } from "react-router-dom";
-import { PlayListItem } from '../playlistItem/playlistItem';
+import { Filter } from '../filters/filters';
+import { ContentPlaylistPlaylist } from '../contentPlaylist/contentPlaylist';
 import { Search } from '../search/search';
 import { ContentPlaylistTitle } from '../playListTitle/playListTitle';
 import { SkeletonTrack } from '../skeletons/skeletonTrack';
@@ -9,21 +10,9 @@ import  Navigation  from "../navigation/nav";
 import { ThemeContext } from '../../ThemeProvider';
 import Bar from "../bar/bar";
 import * as Styled from './styles'
+import { useGetSelectionsByIdQuery } from '../../services/selections';
 
 
-const TRACKS = [
-    { id: 1, sample: [{id: 1, author: 'Nero', album: 'Welcome Reality', title: 'Guilt', time: '4:44'},
-    {id: 2, author: 'Dynoro, Outwork, Mr. Gee', album: 'Elektro', time: '2:22', title: 'Elektro'},
-    {id: 3, author: 'Ali Bakgor', album: 'I’m Fire', time: '2:22', title: 'I’m Fire'},
-    {id: 4, author: 'Стоункат, Psychopath', album: 'Non Stop', time: '4:12', title: 'Non Stop', subtitle: '(Remix)'},
-    {id: 5, author: 'Jaded, Will Clarke, AR/CO', album: 'Run Run', time: '2:54', title: 'Run Run', subtitle: '(feat. AR/CO)'}]},
-    { id: 2, sample: [ {id: 6, author: 'Nero222', album: 'Welcome Reality', title: 'Guilt', time: '4:44'},
-    {id: 7, author: 'Dynoro, Outwork, Mr. Gee', album: 'Elektro', time: '2:22', title: 'Elektro'},
-    {id: 8, author: 'Ali Bakgor', album: 'I’m Fire', time: '2:22', title: 'I’m Fire'},
-    {id: 9, author: 'Стоункат, Psychopath', album: 'Non Stop', time: '4:12', title: 'Non Stop', subtitle: '(Remix)'},
-    {id: 10, author: 'Jaded, Will Clarke, AR/CO', album: 'Run Run', time: '2:54', title: 'Run Run', subtitle: '(feat. AR/CO)'}]}
-   
-];
 
 function PlaylistTitle() {
     const {theme} = useContext(ThemeContext);
@@ -32,77 +21,142 @@ function PlaylistTitle() {
     )
 }
 
-export const Content = () =>  {
-    const params = useParams();
-    const track = TRACKS.find((element) => element.id === Number(params.id));
+function MainPlaylistCenterBlock() {
 
 
-    return(
-
-            track.sample.map(({id, author, album, title, subtitle, time}) => 
-            <PlayListItem key={id} author={author} album={album} title={title} subtitle={subtitle} time={time}/>
-            )
-
-    )
-    
-}
-
-
-export function ContentPlaylistPlaylist() {
+    const id = 1;
+    const { theme } = useContext(ThemeContext);
+    const [tracks, setTracks] = useState([]); // выводит трек-лист
+    const [searchTracks, setSearchTracks] = useState([]); // трек-лист, сформированнный по поиску
+    const [filterByAuthor, setFilterByAuthor] = useState([]); // трек-лист фильтрации по автору
+    const [filterByYear, setFilterByYear] = useState([]); // трек-лист для фильтрации по году
+    const [filterByGenre, setFiltersByGenre] = useState([]); // трек-лист для фильтрации по жанру
+    const [shuffleTracks, setShuffleTracks] = useState([]);
+    const [openBar, setOPenBar] = useState(false);
 
 
-    const [skeleton, setSkeleton] = useState(false);
-  
-    useEffect(() => {
-        setSkeleton(true);
-        setTimeout(async () => {
 
-            setSkeleton(false);
+    const { data: tracksAll =[], isSuccess: isTracksSuccess, isLoading: isTracksLoading, error } = useGetSelectionsByIdQuery(id);
 
-        }, 5000);
-    }, []);
+    console.log(tracksAll);
+    const trackList = structuredClone(tracksAll.items);
+    console.log(trackList);
+
+// /////////////////
+
+// //////////////////////////////////
+    let searchingTracks;
+    let tracksByAuthor;
+    let tracksByData;
+    let tracksByGenre;
+    let shuffle;
+
+    if(error) console.log(error.message);
+
+    function getTracksByAuthor (auth) {
+        tracksByAuthor = tracksAll.items.filter((item) => 
+        item.author.toLowerCase().includes(auth.toLowerCase()));
+        setFilterByAuthor(tracksByAuthor)
+    }
+
+    function getTracksByGenre (genr) {
+        tracksByGenre = tracksAll.items.filter((item) => 
+        item.genre.toLowerCase().includes(genr.toLowerCase()));
+        setFiltersByGenre(tracksByGenre);
+    }
+
+    function getSearchTracks (str) {
+       searchingTracks = tracksAll.items.filter((item) => 
+           item.name.toLowerCase().includes(str.toLowerCase())
+       );
+       console.log(searchingTracks);
+      setSearchTracks(searchingTracks);
+    }
+
+    function getTracksByData (year) {
+        console.log(year);
+        if(year === "new") {
+            tracksByData = structuredClone(tracksAll.items);
+            tracksByData.sort((a, b) => a.release_date > b.release_date ? -1 : 1);
+        }
+        if(year === "old") {
+            tracksByData = structuredClone(tracksAll.items);
+            tracksByData.sort((a, b) => a.release_date < b.release_date ? -1 : 1);
+        }
+        console.log(tracksByData);
+        setFilterByYear(tracksByData);
+    }
+
+    function getShuffleTracks () {
+        shuffle = structuredClone(tracksAll.items);
+        shuffle.sort(() => Math.random() - 0.5);
+        console.log(shuffle);
+        setShuffleTracks(shuffle)
+    }
+
  
 
+
+
+   
+    useEffect(() => {
+    if(!trackList) return
+    if(searchTracks) setTracks(searchTracks);
+    // if(filterByAuthor) setTracks(filterByAuthor);
+    if(searchTracks.length < 1 && filterByAuthor.length < 1 && filterByAuthor.length < 1 && filterByYear.length < 1 && filterByGenre.length < 1) {
+        setTracks(tracksAll.items)
+    }
+ 
+ }, [isTracksSuccess, searchTracks]); 
+
+ useEffect(() => {
+    if(filterByAuthor.length < 1) return
+    if(filterByAuthor.length > 1 || filterByAuthor.length === 1) setTracks(filterByAuthor)        
+ }, [isTracksSuccess, filterByAuthor]); 
+
+ useEffect(() => {
+    if(!filterByYear) return
+    if(filterByYear.length > 1) setTracks(filterByYear)
+ }, [isTracksSuccess, filterByYear])
+
+ useEffect(() => {
+    if(filterByGenre.length < 1) return
+    if(filterByGenre.length >= 1) setTracks(filterByGenre)
+ }, [isTracksSuccess, filterByGenre])
+
+ /* useEffect(() => {
+    if(shuffleTracks.length < 1) return
+    if(shuffleTracks.length > 1) setTracks(shuffleTracks)
+}, [isTracksSuccess, shuffleTracks]) */
+
+
+
+ console.log(tracks);
+
+
+ 
     return(
-        <Styled.ContentPlaylist>
-             {!skeleton ?
-             <Content /> :
-             (
-             <>
-             <SkeletonTrack />
-             <SkeletonTrack />
-             <SkeletonTrack />
-             <SkeletonTrack />
-             <SkeletonTrack />
-             </> 
-             )
-            } 
-        </Styled.ContentPlaylist>
-    )
-     
-
-}
-
-
-export function CenterBlockContent(){
-    return(
-        <Styled.CenterblockContent>
-            <ContentPlaylistTitle />
-            <ContentPlaylistPlaylist />
-        </Styled.CenterblockContent>
-    )
-}
-
-function MainCenterBlock() {
-    const { theme} = useContext(ThemeContext);
-    return(
-        <Styled.MainCenterblock theme={theme}>
-            <Search />
+        <Styled.MainCenterblock style={{ backgroundColor: theme === "light" ? "#FFFFFF" : "#1C1C1C" }}>
+            <Search searchTracks={getSearchTracks}/>
             <PlaylistTitle />
-            <CenterBlockContent />
+            <Filter data={tracks} getTracksByAuthor={getTracksByAuthor} getTracksByData={getTracksByData} getTracksByGenre={getTracksByGenre}/>
+
+            <Styled.CenterblockContent>
+            <ContentPlaylistTitle />
+            {isTracksLoading && (
+              [...new Array(20).keys()].map((key) => <SkeletonTrack key={key} />) ) }
+             {(tracks.length > 1 || tracks.length === 1) && ( 
+              <ContentPlaylistPlaylist tracks={tracks} setOPenBar={setOPenBar}/>)}
+             
+            
+            </Styled.CenterblockContent>
+            {(openBar === true) && (tracks.length > 1 || tracks.length === 1) && ( 
+              <Bar tracks={shuffleTracks.length > 1 ? shuffleTracks : tracks} getShuffleTracks={getShuffleTracks}/>)}
+
         </Styled.MainCenterblock>
     )
 }
+
 
 
 
@@ -118,7 +172,7 @@ function Main() {
     return(
         <Styled.Main theme={theme}>
             <Navigation />
-            <MainCenterBlock />
+            <MainPlaylistCenterBlock />
         </Styled.Main>
     )
 }

@@ -40,6 +40,10 @@ padding: 6px 20px;
 background-color: ${props => props.theme === "light" ? "#FFFFFF" : "#181818"};
 color: ${props => props.isSelected ? '#AD61FF' : (props.theme === "light"? '#000000' : '#FFFFFF')};
 border: ${props => props.isSelected ? '2px solid #AD61FF' : (props.theme === "light"? '1px solid #181818' : ' 1px solid #FFFFFF')};
+ :hover {
+    color: #D9B6FF;
+    border: 2px solid #D9B6FF;
+}
 &:not(:last-child) {
     margin-right: 10px;
 };
