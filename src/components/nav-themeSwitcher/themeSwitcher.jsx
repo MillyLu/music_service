@@ -16,15 +16,15 @@ export function ThemeSwitcher() {
      const { theme, toggleTheme } = useContext(ThemeContext);
  
  
-     return( <Styled.ThemeButton onClick={toggleTheme}>
+     return( <Styled.ThemeButton data-testId="themeChange" onClick={toggleTheme}>
         {
              theme === "dark" && (
-                 <SomeSvgSvg />
+                 <SomeSvgSvg title="dark"/>
              )
          }
          {
              theme === "light" && (
-                 <SomeSvgSvgLight />
+                 <SomeSvgSvgLight title="light"/>
              )
          } 
          </Styled.ThemeButton>);

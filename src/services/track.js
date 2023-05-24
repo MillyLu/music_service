@@ -5,11 +5,11 @@ export const trackApi = createApi({
     reducerPath: "tracks",
     baseQuery: fetchBaseQuery({
         baseUrl: "https://painassasin.online/catalog/track/",
-        prepareHeaders: ( headers, {getState} ) => {
+       /* prepareHeaders: ( headers, {getState} ) => {
             if(getState().auth.access != null) {const {tok} = getState().auth.access;
             if(tok) {headers.set('authorization', `Bearer ${tok}`)};                  
         }
-            return headers} 
+            return headers} */
         }
     ),
 
